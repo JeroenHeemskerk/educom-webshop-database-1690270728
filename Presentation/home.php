@@ -1,5 +1,8 @@
 <?php  
 
+/**
+ * Function that displays the 'Home' content
+ */
 function showHomeContent() {
     echo   '<div class="content">
                 <h1>Home</h1>

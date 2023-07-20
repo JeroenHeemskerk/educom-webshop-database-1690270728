@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Function that cleans $_POST array (from POST request), and stores the 'clean' values inside the $data["values"] array
+ * @param array $data [
+ *                  "values" => array : User data submitted,
+ *                  "errors" => array : (Empty),
+ *                  "valid" => boolean : Data validity ] 
+ * @return array $data [
+ *                  "page" => string: Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors => array : (Empty),
+ *                  "valid" => boolean : Data validity ]
+ */
 function cleanData($data) {
     foreach ($_POST as $key => $value) {
         $value = trim($value);
@@ -16,6 +28,23 @@ function cleanData($data) {
     return $data;
 }
 
+
+/**
+ * Function that validates the $data array according to business logic. 
+ * Important! The $data["user"] only present when page == 'registration' or 'login'
+ * @param array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : (Empty),
+ *                  "user" => array : (Empty)
+ *                  "valid" => boolean: Data validity ]
+ * @return array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : Error messages,
+ *                  "user" => array : User data from database (email, name, password)
+ *                  "valid" => boolean: Data validity ]
+ */
 function validateData($data) {
     $data = cleanData($data);
     foreach ($data["values"] as $key => $value) {
@@ -42,16 +71,18 @@ function validateData($data) {
             $data["errors"]["confirm_password"] = "Passwords do not match. Try again";
         }
         else {
-            $data = doesUserExist($data);
+            require "../Data/DML.php";
+            $data = findUserByEmail($data);
             if ($data["user"]["user_exists"]) {
                 $data["errors"]["user_exists"] = "A user with the same email already exists";
             }
         }
     }
     elseif ($data["page"] == "login") {
-        $data = doesUserExist($data);
+        require "../Data/DML.php";
+        $data = findUserByEmail($data);
         if ($data["user"]["user_exists"]) {
-            if (!authenticateUser($data)) {
+            if (!userIsAuthenticated($data)) {
                 $data["errors"]["authentication"] = "The email and/or password do not match";
             }
         } 
@@ -62,6 +93,16 @@ function validateData($data) {
     return $data;
 }
 
+
+/**
+ * Function that validates the 'Contact Me' data from user, sent through POST request
+ * @return array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : Error messages,
+ *                  "user" => array : User data from database (email, name, password)
+ *                  "valid" => boolean: Data validity ]
+ */
 function validateContact() {
     $contact_fields = array("gender"=>"","name"=>"","email"=>"","phone"=>"","subject"=>"","communication_preference"=>"","message"=>"");
     $data = array("values"=>$contact_fields,"errors"=>array(),"valid"=>false);
@@ -71,6 +112,15 @@ function validateContact() {
     return $data;
 }
 
+
+/**
+ * Function that validates the 'Registration' data from user, sent through POST request
+ * @return array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : Error messages,
+ *                  "valid" => boolean: Data validity ]
+ */
 function validateRegister() {
     $register_fields = array("email"=>"","name"=>"","password"=>"","confirm_password"=>"");
     $data = array("values"=>$register_fields,"errors"=>array(),"user"=>array(),"valid"=>false);
@@ -80,36 +130,31 @@ function validateRegister() {
     return $data;
 }
 
-function doesUserExist($data) {
-    $data["user"]["user_exists"] = false;
-    $users_file = fopen("users/users.txt", "r") or die("Unable to open file.");
-    fgets($users_file); # File header
 
-    while (!feof($users_file)) {
-        $user = explode("|", fgets($users_file));
-        if ($data["values"]["email"] == $user[0]) {
-            $data["user"]["user_exists"] = true;
-            $data["user"]["email"] = $user[0];
-            $data["user"]["name"] = $user[1];
-            $data["user"]["password"] = $user[2];
-            break;
-        }
-    }
-    fclose($users_file);
-    return $data;
-}
-
-function saveUser($data) {
-    $users_file = fopen("users/users.txt", "a");
-    $new_user = "\n" . $data["values"]["email"] . "|" . $data["values"]["name"] . "|" . $data["values"]["password"];
-    fwrite($users_file, $new_user);
-    fclose($users_file);
-}
-
-function authenticateUser($data) {
+/**
+ * Function that returns TRUE, IF user email AND user password matches with existing data
+ * @param array $data [
+ *                  "page" => string : Requested page
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : (Empty),
+ *                  "user" => array : User data from database (email, name, password),
+ *                  "valid" => boolean : Data validity ]
+ * @return boolean
+ */
+function userIsAuthenticated($data) {
     return ($data["values"]["email"] == $data["user"]["email"] && $data["values"]["password"] == $data["user"]["password"]);
 }
 
+
+/**
+ * Function that validates the 'Login' data from user, sent through POST request
+ * @return array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : Error messages,
+ *                  "user" => array : User data from database (email, name, password)
+ *                  "valid" => boolean: Data validity ]
+ */
 function validateLogin() {
     $data = array("values"=>array(),"errors"=>array(),"user"=>array(),"valid"=>false);
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

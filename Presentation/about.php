@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Function that displays the 'About Me' content
+ */
 function showAboutContent() {
     echo   '<div class="content">
                 <h1>About Me</h1>

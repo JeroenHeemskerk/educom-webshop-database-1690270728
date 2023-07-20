@@ -1,5 +1,13 @@
 <?php 
 
+/**
+ * Function that displays the 'Contact Me' thank you content
+ * @param array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors => array : (Empty),
+ *                  "valid" => boolean : Data validity (TRUE) ]
+ */
 function showContactThanks($data) {
     echo   '<div class="content">
                 Thank you for reaching out.<br><br>
@@ -13,6 +21,16 @@ function showContactThanks($data) {
             </div>';  
 }
 
+
+/**
+ * Function that displays the 'Contact Me' form
+ * Important! The $data["errors"] contains errors messages when submitted user data is not valid
+ * @param array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors => array : (Empty/Error messages),
+ *                  "valid" => boolean : Data validity ]
+ */
 function showContactForm($data) {
     echo   '<div class="content">
                 <h1>Contact Me</h1>
