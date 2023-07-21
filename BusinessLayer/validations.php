@@ -7,14 +7,14 @@ define("DATA", "../DataLayer");
 
 
 /**
- * Function that cleans $_POST array (from POST request), and stores the 'clean' values inside the $data["values"] array
+ * Function cleans POST data, and stores the 'clean' values inside the $data["values"] array
  * @param array $data [
  *                  "values" => array : User data submitted,
  *                  "errors" => array : Empty,
  *                  "valid" => boolean : Data validity ] 
  * @return array $data [
  *                  "page" => string: Requested page,
- *                  "values" => array : User data submitted (clean),
+ *                  "values" => array : User data submitted (cleaned),
  *                  "errors => array : Empty,
  *                  "valid" => boolean : Data validity ]
  */
@@ -36,18 +36,18 @@ function cleanData($data) {
 
 
 /**
- * Function that validates the $data array according to business logic. 
+ * Function validates the $data array according to business logic, and records the errors if any
  * Important! The $data["user"] and $data["user_already_existst"] only present when page == 'registration' or 'login'
  * @param array $data [
  *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
+ *                  "values" => array : User data submitted,
  *                  "errors" => array : Empty,
  *                  "user" => array : Empty,
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  * @return array $data [
  *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
+ *                  "values" => array : User data submitted (cleaned),
  *                  "errors" => array : Empty/Error messages,
  *                  "user" => array : Empty/User data from database (id, email, name, password),
  *                  "user_already_exists" => boolean : Flag variable,
@@ -59,7 +59,7 @@ function validateData($data) {
     $data = cleanData($data); # Clean data
 
     foreach ($data["values"] as $key => $value) {
-        if (empty($value)) { #Check if there is empty fields
+        if (empty($value)) { #Check if field is empty
             $data["errors"][$key] = ucfirst(str_replace("_", " ", $key)) .  " is required";
         }
         else {
@@ -99,7 +99,7 @@ function validateData($data) {
             } 
             break;
         case "change_password":
-            if (!$data["values"]["current_password"] == $data["user"]["password"]) { # Check if 'current password' filled matches 'password' that exists in database
+            if (!$data["values"]["current_password"] == $data["user"]["password"]) { # Check if 'current password' matches 'password' in database
                 $data["errors"]["current_password"] = "Your current password is incorrect";
             }
             elseif (!$data["values"]["new_password"] == $data["values"]["confirm_new_password"]) { # Check if 'new password' and 'confirm new password' match
@@ -116,7 +116,7 @@ function validateData($data) {
 
 
 /**
- * Function that validates the 'Contact Me' data from user, sent through POST request
+ * Function validates the 'Contact Me' data from user, sent through POST request
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (contact_fields),
@@ -134,7 +134,7 @@ function validateContact() {
 
 
 /**
- * Function that validates the 'Registration' data from user, sent through POST request
+ * Function validates the 'Registration' data from user, sent through POST request
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (register_fields),
@@ -154,7 +154,7 @@ function validateRegister() {
 
 
 /**
- * Function that validates the 'Login' data from user, sent through POST request
+ * Function validates the 'Login' data from user, sent through POST request
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (login_fields),
@@ -174,14 +174,14 @@ function validateLogin() {
 
 
 /**
- * Function that validates the 'Change Password' data from user, sent through POST request
+ * Function validates the 'Change Password' data from user, sent through POST request
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (change_password_fields)
  *                  "errors" => array : Empty/Error messages,
  *                  "user" => array : User data from database (id, email, name, password),
  *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity (TRUE) ]
+ *                  "valid" => boolean: Data validity ]
  */
 function validateNewPassword() {
     $change_password_fields = array("current_password"=>"","new_password"=>"","confirm_new_password"=>"");

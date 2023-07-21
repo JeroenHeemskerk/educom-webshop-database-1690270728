@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * Function that connects to "my_webshop" database as user "webshop_user"
+ * Function connects to "my_webshop" database as user "webshop_user"
  * @return object $conn : Connection to the database
  */
 function connectToDB() {
@@ -24,7 +24,7 @@ function connectToDB() {
 
 
 /**
- * Function that inserts user 'Registration' data into "my_webshop.users" db.table 
+ * Function inserts user 'Registration' data into "my_webshop.users" db.table 
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
@@ -56,7 +56,7 @@ function storeUser($data) {
 
 
 /**
- * Function that queries user data from "my_webshop.users" db.table, and stores the query result inside the $data["user"] array
+ * Function queries user data from "my_webshop.users" db.table, and stores the query result inside the $data["user"] array
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
@@ -104,7 +104,7 @@ function findUserByEmail($data) {
 
 
 /**
- * Function that uses "Change Password" data to update user password in "my_webshop.users" db.table 
+ * Function uses "Change Password" data to update user password in "my_webshop.users" db.table 
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),

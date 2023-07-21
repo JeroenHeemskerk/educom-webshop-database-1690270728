@@ -3,7 +3,7 @@
 /**
  * !Important : index.php should only communicate with files in this folder
  */
-define("DISPLAY", "../PresentationLayer");
+define("PATH", "../PresentationLayer");
 
 
 session_start();
@@ -13,7 +13,7 @@ showResponsePage($data);
 
 
 /**
- * Function that gets the requested page, via POST or GET method
+ * Function gets the requested page, via POST or GET method
  * @return string $page : Requested page
  */
 function getRequestedPage() {
@@ -28,7 +28,7 @@ function getRequestedPage() {
 
 
 /**
- * Function that processes the page requests
+ * Function processes the page requests
  * @return array $data : Relevant user data
  */
 function processRequest($page) {
@@ -72,7 +72,7 @@ function processRequest($page) {
 
 
 /**
- * Function that displays the response page
+ * Function displays the response page
  * @param array $data : Relevant user data
  */
 function showResponsePage($data) {
@@ -84,7 +84,7 @@ function showResponsePage($data) {
 
 
 /**
- * Function that displays the HTML document start
+ * Function displays the HTML document start
  */
 function showDocumentStart() {
     echo '<!DOCTYPE html>
@@ -93,14 +93,14 @@ function showDocumentStart() {
 
 
 /**
- * Function that displays the HTML document head section
+ * Function displays the HTML document head section
  * @param array $data : Relevant user data 
  */
 function showHeadSection($data) {
     echo '<head>
             <title>' . ucfirst($data["page"]) . '</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-            <link rel="stylesheet" href="'.DISPLAY.'/CSS/stylesheet.css">
+            <link rel="stylesheet" href="'.PATH.'/CSS/stylesheet.css">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -109,7 +109,7 @@ function showHeadSection($data) {
 
 
 /**
- * Function that displays the HTML document body section
+ * Function displays the HTML document body section
  * @param array $data : Relevant user data
  */
 function showBodySection($data) {
@@ -122,7 +122,7 @@ function showBodySection($data) {
 
 
 /**
- * Function that displays the HTML document end 
+ * Function displays the HTML document end 
  */
 function showDocumentEnd() {
     echo '</html>';
@@ -130,7 +130,7 @@ function showDocumentEnd() {
 
 
 /**
- * Function that displays the HTML body start
+ * Function displays the HTML body start
  */
 function showBodyStart() {
     echo '<body>';
@@ -138,7 +138,7 @@ function showBodyStart() {
 
 
 /**
- * Function that displays the HTML header section
+ * Function displays the HTML header section
  * @param array $data : Relevant user data based on requested page
  */
 function showMenu($data) {
@@ -156,48 +156,48 @@ function showMenu($data) {
 
 
 /**
- * Function that displays the relevant page content
+ * Function displays the relevant page content
  * @param array $data : Relevant user data based on requested page
  */
 function showContent($data) {
     switch ($data["page"]) {
        case "home":
-            require DISPLAY."/home.php";
+            require PATH."/home.php";
             showHomeContent();
             break;
         case "about":
-            require DISPLAY."/about.php";
+            require PATH."/about.php";
             showAboutContent();
             break;
         case "contact":
-            require DISPLAY."/contact.php";
+            require PATH."/contact.php";
             showContactForm($data);
             break;
         case "thanks":
-            require DISPLAY."/contact.php";
+            require PATH."/contact.php";
             showContactThanks($data);
             break;
         case "register":
-            require DISPLAY."/register.php";
+            require PATH."/register.php";
             showRegisterPage($data);
             break;
         case "login":
-            require DISPLAY."/login.php";
+            require PATH."/login.php";
             showLoginPage($data);
             break;
         case "change_password":
-            require DISPLAY."/change_password.php";
+            require PATH."/change_password.php";
             showChangePassword($data);
             break;
         default:
-        require DISPLAY."/404.php";
+        require PATH."/404.php";
             show404Page();
     }
 }
 
 
 /**
- * Function that displays the HTML document footer section
+ * Function displays the HTML document footer section
  */
 function showFooter() {
     echo   '<footer>
@@ -207,7 +207,7 @@ function showFooter() {
 
 
 /**
- * Function that displays the HTML document body end
+ * Function displays the HTML document body end
  */
 function showBodyEnd() {
     echo    '</body>';
@@ -215,7 +215,7 @@ function showBodyEnd() {
 
 
 /**
- * Function that gets a value from a specified array and specified key
+ * Function gets a value from a specified array and specified key
  * @param array $array : Array of your choice
  * @param string $key : Key of your choice
  * @return ? : Value if set (can be any type), otherwise returns empty string
@@ -226,12 +226,12 @@ function getArrayValue($array, $key) {
 
 
 /**
- * Function that displays an error message based on specified key
+ * Function displays an error message based on specified key
  * @param array $data : Relevant user data
  * @param string $key : Error key
  * @return ? : Value, if set (can be any type), otherwise returns empty string
  */
-function showFormError($data, $key) {
+function showFieldError($data, $key) {
     if (empty(getArrayValue($data["errors"], $key))) {
         return '';
     }
@@ -242,7 +242,7 @@ function showFormError($data, $key) {
 
 
 /**
- * Function that sets user data inside session variable for use on other pages
+ * Function sets user data inside session variable for use on other pages
  * @param array $data : Relevant user data
  */
 function loginUser($data) {
@@ -251,7 +251,7 @@ function loginUser($data) {
 
 
 /**
- * Function that unsets user data inside session variable
+ * Function unsets user data inside session variable
  * @param array $data : Relevant user data
  */
 function logoutUser() {
@@ -260,7 +260,7 @@ function logoutUser() {
 
 
 /**
- * Function that displays relevant navigation links based on if session variable is set
+ * Function displays relevant navigation links based on if session variable is set
  * @param array $data : Relevant user data
  */
 function showMenuOption($data) {
