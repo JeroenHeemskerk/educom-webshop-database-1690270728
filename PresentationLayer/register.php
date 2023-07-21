@@ -12,7 +12,7 @@
 function showRegisterPage($data) {
     echo '  <div class="content">
                 <h1>Registration</h1>
-                <form action="../Business/index.php" method="POST">
+                <form action="index.php" method="POST">
                     <input type="hidden" name="page" value="register">
 
             <!- TEXTFIELDS ->
@@ -20,7 +20,7 @@ function showRegisterPage($data) {
                     <br>
                     <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
                     ' . showFormError($data, "email") . '
-                    ' . showFormError($data, "user_exists") . '
+                    ' . showFormError($data, "user_already_exists") . '
                     <br>
 
                     <label for="name">Name</label>

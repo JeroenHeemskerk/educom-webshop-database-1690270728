@@ -34,7 +34,7 @@ function showContactThanks($data) {
 function showContactForm($data) {
     echo   '<div class="content">
                 <h1>Contact Me</h1>
-                <form action="../Business/index.php" method="POST">
+                <form action="index.php" method="POST">
                     <input type="hidden" id="page" name="page" value="contact">
 
             <!- DROPDOWN ->

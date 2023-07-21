@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * index.php should only communicate with files in this folder
+ */
+define("DISPLAY", "../PresentationLayer"); # Constant
+
+
 session_start();
 $page = getRequestedPage();
 $data = processRequest($page);
@@ -38,7 +44,6 @@ function processRequest($page) {
             require "validations.php";
             $data = validateRegister();
             if ($data["valid"]) {
-                require "../Data/DML.php";
                 storeUser($data);
                 $page = "login";
             }
@@ -47,8 +52,8 @@ function processRequest($page) {
             require "validations.php";
             $data = validateLogin();
             if ($data["valid"]) {
-                loginUser($data);
                 $page = "home";
+                loginUser($data);
             }
             break;
         case "logout":
@@ -58,7 +63,6 @@ function processRequest($page) {
         }
     $data["page"] = $page;
     return $data;
-
 }
 
 
@@ -91,7 +95,7 @@ function showHeadSection($data) {
     echo '<head>
             <title>' . ucfirst($data["page"]) . '</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-            <link rel="stylesheet" href="../Presentation/CSS/stylesheet.css">
+            <link rel="stylesheet" href="'.DISPLAY.'/CSS/stylesheet.css">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -153,31 +157,31 @@ function showMenu($data) {
 function showContent($data) {
     switch ($data["page"]) {
        case "home":
-            require "../Presentation/home.php";
+            require DISPLAY."/home.php";
             showHomeContent();
             break;
         case "about":
-            require "../Presentation/about.php";
+            require DISPLAY."/about.php";
             showAboutContent();
             break;
         case "contact":
-            require "../Presentation/contact.php";
+            require DISPLAY."/contact.php";
             showContactForm($data);
             break;
         case "thanks":
-            require "../Presentation/contact.php";
+            require DISPLAY."/contact.php";
             showContactThanks($data);
             break;
         case "register":
-            require "../Presentation/register.php";
+            require DISPLAY."/register.php";
             showRegisterPage($data);
             break;
         case "login":
-            require "../Presentation/login.php";
+            require DISPLAY."/login.php";
             showLoginPage($data);
             break;
         default:
-        require "../Presentation/404.php";
+        require DISPLAY."/404.php";
             show404Page();
     }
 }

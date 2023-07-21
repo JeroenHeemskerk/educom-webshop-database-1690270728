@@ -12,7 +12,7 @@
 function showLoginPage($data) {
     echo '  <div class="content">
                 <h1>Login</h1>
-                <form action="../Business/index.php" method="POST">
+                <form action="index.php" method="POST">
                     <input type="hidden" name="page" value="login">
 
                     <label for="email">Email</label>

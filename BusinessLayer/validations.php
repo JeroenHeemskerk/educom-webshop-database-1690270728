@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * validations.php should only communicate with files in this folder
+ */
+define("DATA", "../DataLayer"); # Constant
+
+
+/**
  * Function that cleans $_POST array (from POST request), and stores the 'clean' values inside the $data["values"] array
  * @param array $data [
  *                  "values" => array : User data submitted,
@@ -31,18 +37,20 @@ function cleanData($data) {
 
 /**
  * Function that validates the $data array according to business logic. 
- * Important! The $data["user"] only present when page == 'registration' or 'login'
+ * Important! The $data["user"] and $data["user_already_existst"] only present when page == 'registration' or 'login'
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : (Empty),
- *                  "user" => array : (Empty)
+ *                  "errors" => array : Empty,
+ *                  "user" => array : Empty,
+ *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Error messages,
- *                  "user" => array : User data from database (email, name, password)
+ *                  "errors" => array : Empty/Error messages,
+ *                  "user" => array : Empty/User data from database (id, email, name, password),
+ *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
 function validateData($data) {
@@ -67,21 +75,21 @@ function validateData($data) {
             } 
     }  
     if ($data["page"] == "register") {
-        if ($data["values"]["confirm_password"] != $data["values"]["password"]) {
+        if (!$data["values"]["confirm_password"] == $data["values"]["password"]) {
             $data["errors"]["confirm_password"] = "Passwords do not match. Try again";
         }
         else {
-            require "../Data/DML.php";
+            require DATA."/data_manipulation.php";
             $data = findUserByEmail($data);
-            if ($data["user"]["user_exists"]) {
-                $data["errors"]["user_exists"] = "A user with the same email already exists";
+            if ($data["user_already_exists"]) {
+                $data["errors"]["user_already_exists"] = "A user with the same email already exists";
             }
         }
     }
     elseif ($data["page"] == "login") {
-        require "../Data/DML.php";
+        require DATA."/data_manipulation.php";
         $data = findUserByEmail($data);
-        if ($data["user"]["user_exists"]) {
+        if ($data["user_already_exists"]) {
             if (!userIsAuthenticated($data)) {
                 $data["errors"]["authentication"] = "The email and/or password do not match";
             }
@@ -99,8 +107,7 @@ function validateData($data) {
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Error messages,
- *                  "user" => array : User data from database (email, name, password)
+ *                  "errors" => array : Empty/Error messages,
  *                  "valid" => boolean: Data validity ]
  */
 function validateContact() {
@@ -118,12 +125,14 @@ function validateContact() {
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Error messages,
+ *                  "errors" => array : Empty/Error messages,
+ *                  "user" => array : Empty/User data from database (id, email, name, password),
+ *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
 function validateRegister() {
     $register_fields = array("email"=>"","name"=>"","password"=>"","confirm_password"=>"");
-    $data = array("values"=>$register_fields,"errors"=>array(),"user"=>array(),"valid"=>false);
+    $data = array("values"=>$register_fields,"errors"=>array(),"user"=>array(),"user_already_exists"=>false,"valid"=>false);
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = validateData($data);
     }
@@ -136,8 +145,9 @@ function validateRegister() {
  * @param array $data [
  *                  "page" => string : Requested page
  *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : (Empty),
- *                  "user" => array : User data from database (email, name, password),
+ *                  "errors" => array : Empty,
+ *                  "user" => array : User data from database (id, email, name, password),
+ *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean : Data validity ]
  * @return boolean
  */
@@ -151,12 +161,13 @@ function userIsAuthenticated($data) {
  * @return array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Error messages,
- *                  "user" => array : User data from database (email, name, password)
+ *                  "errors" => array : Empty/Error messages,
+ *                  "user" => array : Empty/User data from database (id, email, name, password),
+ *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
 function validateLogin() {
-    $data = array("values"=>array(),"errors"=>array(),"user"=>array(),"valid"=>false);
+    $data = array("values"=>array(),"errors"=>array(),"user"=>array(),"user_exists"=>false,"valid"=>false);
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = validateData($data);
     }
