@@ -1,9 +1,9 @@
 <?php
 
 /**
- * index.php should only communicate with files in this folder
+ * !Important : index.php should only communicate with files in this folder
  */
-define("DISPLAY", "../PresentationLayer"); # Constant
+define("DISPLAY", "../PresentationLayer");
 
 
 session_start();
@@ -32,16 +32,15 @@ function getRequestedPage() {
  * @return array $data : Relevant user data
  */
 function processRequest($page) {
+    require "validations.php";
     switch($page) {
         case "contact":
-            require "validations.php";
             $data = validateContact();
             if ($data["valid"]) {
                 $page = "thanks";
             }
             break;
         case "register":
-            require "validations.php";
             $data = validateRegister();
             if ($data["valid"]) {
                 storeUser($data);
@@ -49,7 +48,6 @@ function processRequest($page) {
             }
             break;
         case "login":
-            require "validations.php";
             $data = validateLogin();
             if ($data["valid"]) {
                 $page = "home";
@@ -60,6 +58,13 @@ function processRequest($page) {
             logoutUser();
             $page = "home";
             break;
+        case "change_password":
+            $data = validateNewPassword();
+            if ($data["valid"]) {
+                updatePassword($data);
+                $page = "home";
+                break;
+            }
         }
     $data["page"] = $page;
     return $data;
@@ -180,6 +185,10 @@ function showContent($data) {
             require DISPLAY."/login.php";
             showLoginPage($data);
             break;
+        case "change_password":
+            require DISPLAY."/change_password.php";
+            showChangePassword($data);
+            break;
         default:
         require DISPLAY."/404.php";
             show404Page();
@@ -258,7 +267,8 @@ function showMenuOption($data) {
     if (isset($_SESSION["data"])) {
         $data["user"] = $_SESSION["data"]["user"];
         $name = ucfirst(explode(" ", $data["user"]["name"])[0]);
-        return '<li><button type="button"><a class="navlink" href="index.php?page=logout">Logout ' . $name . '</a></button></li>';
+        return '<li><button type="button"><a class="navlink" href="index.php?page=change_password">Change Password</a></button></li>
+                <li><button type="button"><a class="navlink" href="index.php?page=logout">Logout ' . $name . '</a></button></li>';
     }
     else {
         return '<li><button type="button"><a class="navlink" href="index.php?page=register">Register</a></button></li>

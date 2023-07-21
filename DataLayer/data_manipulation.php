@@ -101,3 +101,35 @@ function findUserByEmail($data) {
     }
     return $data;
 }
+
+
+/**
+ * Function that uses "Change Password" data to update user password in "my_webshop.users" db.table 
+ * @param array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : Empty,
+ *                  "user" => array : User data from database (id, email, name, password),
+ *                  "user_already_exists" => boolean : Flag variable,
+ *                  "valid" => boolean: Data validity (TRUE) ]
+ */
+function updatePassword($data) {
+    $conn = connectToDB();
+    $id = mysqli_real_escape_string($conn, $data['user']['id']);
+    $new_password = mysqli_real_escape_string($conn, $data['values']['new_password']);
+
+    try {
+        $sql = "UPDATE users
+                SET password = '$new_password'
+                WHERE id = $id;";
+        if (!mysqli_query($conn, $sql)) {
+            throw new Exception("<br>Failed to update user data: " . mysql_error($conn));
+        }
+    }
+    catch(Exception $e) {
+        echo $e->getmessage();
+    }
+    finally {
+        mysqli_close($conn);
+    }
+}
