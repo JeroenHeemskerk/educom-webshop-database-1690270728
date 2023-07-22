@@ -1,12 +1,6 @@
 <?php
 
 /**
- * !Important : validations.php should only communicate with files in this folder
- */
-define("DATA", "../DataLayer"); 
-
-
-/**
  * Function cleans POST data, and stores the 'clean' values inside the $data["values"] array
  * @param array $data [
  *                  "values" => array : User data submitted,
@@ -54,7 +48,7 @@ function cleanData($data) {
  *                  "valid" => boolean: Data validity ]
  */
 function validateData($data) {
-    require DATA."/data_manipulation.php";
+    require "data_manipulation.php";
 
     $data = cleanData($data); # Clean data
 

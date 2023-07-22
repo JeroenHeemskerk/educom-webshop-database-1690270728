@@ -11,7 +11,7 @@ function showHomeContent() {
                         <p id="welcome" class="home">Hi! I\'m Quincy.<br>Welcome to my website.</p>
                     </div>
                     <div class="column">
-                        <img class="home" src="'.PATH.'/Images/me.JPG" alt="A profile picture of me">
+                        <img class="home" src="UI/Images/me.JPG" alt="A profile picture of me">
                     </div>
                 </div>
                 <button type="button" class="get_in_touch"><a href="index.php?page=contact">Contact Me</a></button>

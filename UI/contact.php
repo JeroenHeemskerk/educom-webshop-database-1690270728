@@ -45,32 +45,32 @@ function showContactForm($data) {
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
-                    ' . showFieldError($data, "gender") . '
+                    ' . getError($data, "gender") . '
                     <br>
 
             <!- TEXTFIELDS ->     
                         <label for="name">Name</label>
                         <br>
                         <input type="text" name="name" value="' . getArrayValue($data["values"], "name") . '">
-                        ' . showFieldError($data, "name") . '
+                        ' . getError($data, "name") . '
                         <br>
 
                         <label for="email">Email</label>
                         <br>
                         <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
-                        ' . showFieldError($data, "email") . '
+                        ' . getError($data, "email") . '
                         <br>
 
                         <label for="phone">Phone</label>
                         <br>
                         <input type="text" name="phone" value="' . getArrayValue($data["values"], "phone") . '">
-                        ' . showFieldError($data, "phone") . '
+                        ' . getError($data, "phone") . '
                         <br>
 
                         <label for="subject">Subject</label>
                         <br>
                         <input type="text" name="subject" value="' . getArrayValue($data["values"], "subject") . '">
-                        ' . showFieldError($data, "subject") . '
+                        ' . getError($data, "subject") . '
                         <br>
 
             <!- RADIO BUTTONS ->
@@ -80,14 +80,14 @@ function showContactForm($data) {
                         <label for="email" class="radio">Email</label>
                         <input type="radio" value="Phone" name="communication_preference">
                         <label for="phone" class="radio">Phone</label>
-                        ' . showFieldError($data, "communication_preference") . '
+                        ' . getError($data, "communication_preference") . '
                         <br>
 
             <!- TEXTAREA ->
                         <label for="message">Message</label>
                         <br>
                         <textarea name="message" cols="30" rows="10" value="' . getArrayValue($data["values"], "message") . '"></textarea>
-                        ' . showFieldError($data, "message") . '
+                        ' . getError($data, "message") . '
                         <br>
 
             <!- SUBMIT ->

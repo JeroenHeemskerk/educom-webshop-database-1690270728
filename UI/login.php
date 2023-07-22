@@ -18,15 +18,15 @@ function showLoginPage($data) {
                     <label for="email">Email</label>
                     <br>
                     <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
-                    ' . showFieldError($data, "email") . '
+                    ' . getError($data, "email") . '
                     <br>
 
                     <label for="password">Password</label>
                     <br>
                     <input type="text" name="password" value="' . getArrayValue($data["values"], "password") . '">
-                    ' . showFieldError($data, "password") . '
+                    ' . getError($data, "password") . '
                     <br>
-                    ' . showFieldError($data, "authentication") . '
+                    ' . getError($data, "authentication") . '
                     <br>
 
                     <input class="submit" type="submit" value="Sign In">

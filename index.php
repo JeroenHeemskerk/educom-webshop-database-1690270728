@@ -1,11 +1,5 @@
 <?php
 
-/**
- * !Important : index.php should only communicate with files in this folder
- */
-define("PATH", "../PresentationLayer");
-
-
 session_start();
 $page = getRequestedPage();
 $data = processRequest($page);
@@ -100,7 +94,7 @@ function showHeadSection($data) {
     echo '<head>
             <title>' . ucfirst($data["page"]) . '</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-            <link rel="stylesheet" href="'.PATH.'/CSS/stylesheet.css">
+            <link rel="stylesheet" href="UI/CSS/stylesheet.css">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -162,35 +156,35 @@ function showMenu($data) {
 function showContent($data) {
     switch ($data["page"]) {
        case "home":
-            require PATH."/home.php";
+            require "UI/home.php";
             showHomeContent();
             break;
         case "about":
-            require PATH."/about.php";
+            require "UI/about.php";
             showAboutContent();
             break;
         case "contact":
-            require PATH."/contact.php";
+            require "UI/contact.php";
             showContactForm($data);
             break;
         case "thanks":
-            require PATH."/contact.php";
+            require "UI/contact.php";
             showContactThanks($data);
             break;
         case "register":
-            require PATH."/register.php";
+            require "UI/register.php";
             showRegisterPage($data);
             break;
         case "login":
-            require PATH."/login.php";
+            require "UI/login.php";
             showLoginPage($data);
             break;
         case "change_password":
-            require PATH."/change_password.php";
+            require "UI/change_password.php";
             showChangePassword($data);
             break;
         default:
-        require PATH."/404.php";
+        require "UI/404.php";
             show404Page();
     }
 }
@@ -231,7 +225,7 @@ function getArrayValue($array, $key) {
  * @param string $key : Error key
  * @return ? : Value, if set (can be any type), otherwise returns empty string
  */
-function showFieldError($data, $key) {
+function getError($data, $key) {
     if (empty(getArrayValue($data["errors"], $key))) {
         return '';
     }
