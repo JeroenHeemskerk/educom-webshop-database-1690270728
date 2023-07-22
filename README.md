@@ -20,9 +20,9 @@ The following illustration shows an example of a simple, generic three-tier appl
 <br>
 <br>
 Three-tier architecture for our Webshop:
-- Presentation : UI for the webshop
-- Application: business logic used to process user inputs
-- Data : runs on MySQL
+1. Presentation : UI for the webshop
+2. Application: business logic used to process user inputs
+3. Data : runs on MySQL
 <br>
 <br>
 Some advantages of a three-tier architecture:
