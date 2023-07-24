@@ -1,0 +1,178 @@
+<mxfile host="65bd71144e">
+    <diagram id="LmtuP0N-nXvzAbWiGB0z" name="Page-1">
+        <mxGraphModel dx="1553" dy="829" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="25" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="30" y="230" width="200" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="25">
+                    <mxGeometry width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="endArrow=none;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="25" target="15">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="100" y="80" as="sourcePoint"/>
+                        <mxPoint x="160" y="15" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="" style="endArrow=none;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="25" source="15" target="15">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="50" y="65" as="sourcePoint"/>
+                        <mxPoint x="100" y="15" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="Return add to cart button" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="25">
+                    <mxGeometry y="80" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="-" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="25">
+                    <mxGeometry x="100" y="80" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="Yes" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="25">
+                    <mxGeometry y="50" width="80" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="No" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="25">
+                    <mxGeometry x="160" y="50" width="40" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="Is user logged in ?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="25">
+                    <mxGeometry x="70" y="10" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="270" y="70" width="120" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Show info for each product" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+                    <mxGeometry y="90" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Get products from database" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+                    <mxGeometry y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Get add to cart option" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+                    <mxGeometry y="150" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="showWebshopPage" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+                    <mxGeometry width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="430" y="100" width="130" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Show info for product" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="29">
+                    <mxGeometry y="30" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="Get add to cart option&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="29">
+                    <mxGeometry y="90" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="showProdDetailPage" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="29">
+                    <mxGeometry width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="Get shopping cart option&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="29">
+                    <mxGeometry y="150" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="getAddToCartOption" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="200" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="Get shopping cart option&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="270" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="30" y="40" width="200" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="47">
+                    <mxGeometry width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="" style="endArrow=none;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="47" target="48">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="100" y="80" as="sourcePoint"/>
+                        <mxPoint x="160" y="15" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="50" value="" style="endArrow=none;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="47" source="48" target="48">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="50" y="65" as="sourcePoint"/>
+                        <mxPoint x="100" y="15" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="51" value="Return shopping cart button" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="47">
+                    <mxGeometry y="80" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="-" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="47">
+                    <mxGeometry x="100" y="80" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="53" value="Yes" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="47">
+                    <mxGeometry y="50" width="80" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="54" value="No" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="47">
+                    <mxGeometry x="160" y="50" width="40" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="55" value="Is user logged in ?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="47">
+                    <mxGeometry x="70" y="10" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="56" value="getShoppingCartOption" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="10" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="67" value="calculateSubtotal" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="400" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="Get product orders from Session variable" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="430" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="69" value="Calculate subtotal for each product order" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="550" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" value="updateProductQuantity" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="400" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="Get product orders from Session variable" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="430" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="77" value="Update quantity variable in product order array" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="490" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="79" value="Return subtotal for product order" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="610" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="83" value="calculateOrderTotal" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="400" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="84" value="Get subtotal for each prodct order" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="430" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="85" value="Return sum" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="490" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="87" value="Get price and quantity from product order array&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="490" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="Get product orders from Session variable" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="130" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" value="Show product orders&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="190" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="showCartPage" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="100" width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="Show order summary" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="250" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="Add product order to Session variable" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="430" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="addToCart" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="400" width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="88" value="insert product orders in product_order table" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="430" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="89" value="checkoutOrder" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="400" width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="90" value="Insert order in orders table" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="490" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="91" value="Empty shopping cart" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="550" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
