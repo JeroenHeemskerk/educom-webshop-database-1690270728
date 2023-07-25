@@ -54,33 +54,23 @@ function showBodyStart() {
 function showMenu($data) {
     echo   '<header>
                 <nav>
-                    <ul id="navbar">
-                        <li><button type="button"><a class="navlink" href="index.php?page=home">Home</a></button></li>
-                        <li><button type="button"><a class="navlink" href="index.php?page=about">About Me</a></button></li>
-                        <li><button type="button"><a class="navlink" href="index.php?page=contact">Contact</a></button></li>
-                        ' . getMenuOptions($data) . '
-                        <li><button type="button"><a class="navlink" href="index.php?page=webshop">Webshop</a></button></li>
-                    </ul>
+                    <ul id="navbar">';
+    foreach($data["menu"] as $page_name => $button_text) {
+        showMenuItem($page_name, $button_text);
+    }
+    echo            '</ul>
                 </nav>
             </header>';
 }
 
 
 /**
- * Function displays relevant navigation links based on if session variable is set
- * @param array $data : Relevant user data
+ * Function echos a menu item button
+ * @param string $page_name : Page name for navigation link
+ * @param string $button_text : Text for button
  */
-function getMenuOptions($data) {
-    if (isset($_SESSION["data"])) {
-        $data["user"] = $_SESSION["data"]["user"];
-        $name = ucfirst(explode(" ", $data["user"]["name"])[0]);
-        return '<li><button type="button"><a class="navlink" href="index.php?page=change_password">Change Password</a></button></li>
-                <li><button type="button"><a class="navlink" href="index.php?page=logout">Logout ' . $name . '</a></button></li>';
-    }
-    else {
-        return '<li><button type="button"><a class="navlink" href="index.php?page=register">Register</a></button></li>
-                <li><button type="button"><a class="navlink" href="index.php?page=login">Login</a></button></li>';
-    }
+function showMenuItem($page_name, $button_text) {
+    echo '<li><button type="button"><a class="navlink" href="index.php?page=' . $page_name . '">' . $button_text . '</a></button></li>';
 }
 
 

@@ -61,7 +61,26 @@ function processRequest($page) {
             }
         }
     $data["page"] = $page;
+    $data["menu"] = getMenuItems();
     return $data;
+}
+
+
+/**
+ * Function returns the right navigation menu items, based on if user is logged in or not
+ * @return array $menu [
+ *                  "page_name" => string : Button text ]
+ */
+function getMenuItems() {
+    if (isUserLoggedin()) {
+        $data["user"] = $_SESSION["data"]["user"];
+        $name = ucfirst(explode(" ", $data["user"]["name"])[0]);
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$name,"webshop"=>"Webshop");
+    }
+    else {
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","register"=>"Register","login"=>"Login","webshop"=>"Webshop");
+    }
+    return $menu;
 }
 
 
