@@ -59,6 +59,7 @@ function showMenu($data) {
                         <li><button type="button"><a class="navlink" href="index.php?page=about">About Me</a></button></li>
                         <li><button type="button"><a class="navlink" href="index.php?page=contact">Contact</a></button></li>
                         ' . getMenuOptions($data) . '
+                        <li><button type="button"><a class="navlink" href="index.php?page=webshop">Webshop</a></button></li>
                     </ul>
                 </nav>
             </header>';
