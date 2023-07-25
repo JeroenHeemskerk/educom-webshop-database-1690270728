@@ -29,7 +29,7 @@ function connectToDB() {
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
  *                  "errors" => array : Empty,
- *                  "user" => array : User data from database (id, email, name, password),
+ *                  "user" => array : User data from database (user_id, email, name, password),
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity (TRUE) ]
  */
@@ -68,7 +68,7 @@ function storeUser($data) {
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
  *                  "errors" => array : Empty,
- *                  "user" => array : User data from database (id, email, name, password),
+ *                  "user" => array : User data from database (user_id, email, name, password),
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
@@ -104,18 +104,66 @@ function findUserByEmail($data) {
 
 
 /**
+ * Function queries user data from "my_webshop.users" db.table, and stores the query result inside the $data["user"] array
+ * @param array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : Empty,
+ *                  "user" => array : Empty,
+ *                  "user_already_exists" => boolean : Flag variable,
+ *                  "valid" => boolean: Data validity ]
+ * @return array $data [
+ *                  "page" => string : Requested page,
+ *                  "values" => array : User data submitted (clean),
+ *                  "errors" => array : Empty,
+ *                  "user" => array : User data from database (user_id, email, name, password),
+ *                  "user_already_exists" => boolean : Flag variable,
+ *                  "valid" => boolean: Data validity ]
+ */
+function findUserById($user_id) {
+    $conn = connectToDB();
+    $email = mysqli_real_escape_string($conn, $user_id);
+
+    $sql = "SELECT user_id, email, name, password 
+            FROM user
+            WHERE user_id = '$user_id';";
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row["user_id"] == $user_id) {
+                    $data["user_already_exists"] = true;
+                    $data["user"] = $row;
+                }
+            }
+        }
+    }
+    catch(Exception $e) {
+        echo $e->getmessage();
+    }
+    finally {
+        mysqli_close($conn);
+    }
+    return $data;
+}
+
+
+/**
  * Function uses "Change Password" data to update user password in "my_webshop.users" db.table 
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
  *                  "errors" => array : Empty,
- *                  "user" => array : User data from database (id, email, name, password),
+ *                  "user" => array : User data from database (user_id, email, name, password),
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity (TRUE) ]
  */
 function updatePassword($data) {
     $conn = connectToDB();
-    $id = mysqli_real_escape_string($conn, $data['user']['id']);
+    $id = mysqli_real_escape_string($conn, $data['user']['user_id']);
     $new_password = mysqli_real_escape_string($conn, $data['values']['new_password']);
 
     try {

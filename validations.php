@@ -1,5 +1,7 @@
 <?php
 
+require "data_manipulation.php";
+
 /**
  * Function cleans POST data, and stores the 'clean' values inside the $data["values"] array
  * @param array $data [
@@ -48,7 +50,6 @@ function cleanData($data) {
  *                  "valid" => boolean: Data validity ]
  */
 function validateData($data) {
-    require "data_manipulation.php";
 
     $data = cleanData($data); # Clean data
 
@@ -96,7 +97,8 @@ function validateData($data) {
             }
             break;
         case "change_password":
-            if (!$data["values"]["current_password"] == $data["user"]["password"]) { # Check if 'current password' matches 'password' in database
+            var_dump($data);
+            if (!($data["values"]["current_password"] == $data["user"]["password"])) { # Check if 'current password' matches 'password' in database
                 $data["errors"]["current_password"] = "Your current password is incorrect";
             }
             elseif (!$data["values"]["new_password"] == $data["values"]["confirm_new_password"]) { # Check if 'new password' and 'confirm new password' match
@@ -183,9 +185,11 @@ function validateLogin() {
 function validateNewPassword() {
     $change_password_fields = array("current_password"=>"","new_password"=>"","confirm_new_password"=>"");
     $data = array("values"=>$change_password_fields,"errors"=>array(),"user"=>array(),"valid"=>false);
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_SESSION["data"])) {
-            $data["user"] = $_SESSION["data"]["user"];
+        if (isUserLoggedIn()) {
+
+            $data = findUserById(getLoggedInUserId());
         }
         $data = validateData($data);
     }
