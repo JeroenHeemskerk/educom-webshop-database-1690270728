@@ -17,14 +17,14 @@ function showLoginPage($data) {
 
                     <label for="email">Email</label>
                     <br>
-                    <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
+                    <input type="email" name="email" value="' . getValue($data, "email") . '">
                     ' . getError($data, "email") . '
                     ' . getError($data, "no_existing_user") . '
                     <br>
 
                     <label for="password">Password</label>
                     <br>
-                    <input type="text" name="password" value="' . getArrayValue($data["values"], "password") . '">
+                    <input type="text" name="password" value="' . getValue($data, "password") . '">
                     ' . getError($data, "password") . '
                     <br>
                     ' . getError($data, "authentication") . '

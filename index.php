@@ -86,7 +86,10 @@ function loginUser($data) {
     $_SESSION["data"] = $data;
 }
 
-
+/**
+ * Function returns boolean to indicate if user is logged in or not
+ * @return boolean : User logged in
+ */
 function isUserLoggedin() {
     return isset($_SESSION["data"]);
 }

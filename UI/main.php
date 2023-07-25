@@ -141,6 +141,18 @@ function getArrayValue($array, $key) {
 
 
 /**
+ * Function gets the value from the $data["values"] array for the specified key
+ * @param array $data [
+ *                  "values" => array : User data submitted ]
+ * @param string $key : Key of your choice
+ * @return ? : Value if set (can be any type), otherwise returns empty string
+ */
+function getValue($data, $key) { 
+    return isset($data["values"][$key]) ? $data["values"][$key] : ''; 
+}
+
+
+/**
  * Function displays an error message based on specified key
  * @param array $data : Relevant user data
  * @param string $key : Error key

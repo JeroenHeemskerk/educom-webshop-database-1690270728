@@ -18,26 +18,26 @@ function showRegisterPage($data) {
             <!- TEXTFIELDS ->
                     <label for="email">Email</label>
                     <br>
-                    <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
+                    <input type="email" name="email" value="' . getValue($data, "email") . '">
                     ' . getError($data, "email") . '
                     ' . getError($data, "user_already_exists") . '
                     <br>
 
                     <label for="name">Name</label>
                     <br>
-                    <input type="text" name="name" value="' . getArrayValue($data["values"], "name") . '">
+                    <input type="text" name="name" value="' . getValue($data, "name") . '">
                     ' . getError($data, "name") . '
                     <br>
 
                     <label for="password">Password</label>
                     <br>
-                    <input type="text" name="password" value="' . getArrayValue($data["values"], "password") . '">
+                    <input type="text" name="password" value="' . getValue($data, "password") . '">
                     ' . getError($data, "password") . '
                     <br>
 
                     <label for="confirm_password">Confirm password</label>
                     <br>
-                    <input type="text" name="confirm_password" value="' . getArrayValue($data["values"], "confirm_password") . '">
+                    <input type="text" name="confirm_password" value="' . getValue($data, "confirm_password") . '">
                     ' . getError($data, "confirm_password") . '
                     <br>
             <!- SUBMIT ->

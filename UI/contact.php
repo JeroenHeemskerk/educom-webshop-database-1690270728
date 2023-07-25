@@ -11,13 +11,13 @@
 function showContactThanks($data) {
     echo   '<div class="content">
                 Thank you for reaching out.<br><br>
-                Gender: ' . getArrayValue($data["values"], "gender") . '<br>
-                Name: ' . getArrayValue($data["values"], "name") . '<br>
-                Email: ' . getArrayValue($data["values"], "email") . '<br>
-                Phone: ' . getArrayValue($data["values"], "phone") . '<br>
-                Subject: ' . getArrayValue($data["values"], "subject") . '<br>
-                Communication preference: ' . getArrayValue($data["values"], "communication_preference") . '<br>
-                Message: ' . getArrayValue($data["values"], "message") . '<br>
+                Gender: ' . getValue($data, "gender") . '<br>
+                Name: ' . getValue($data, "name") . '<br>
+                Email: ' . getValue($data, "email") . '<br>
+                Phone: ' . getValue($data, "phone") . '<br>
+                Subject: ' . getValue($data, "subject") . '<br>
+                Communication preference: ' . getValue($data, "communication_preference") . '<br>
+                Message: ' . getValue($data, "message") . '<br>
             </div>';  
 }
 
