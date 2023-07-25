@@ -40,7 +40,7 @@ function storeUser($data) {
     $password = mysqli_real_escape_string($conn, $data['values']['password']);
 
     try {
-        $sql = "INSERT INTO users (email, name, password)
+        $sql = "INSERT INTO user (email, name, password)
                 VALUES ('$email', '$name', '$password');";
         if (!mysqli_query($conn, $sql)) {
             throw new Exception("<br>Failed to insert user data: " . mysql_error($conn));
@@ -76,8 +76,8 @@ function findUserByEmail($data) {
     $conn = connectToDB();
     $email = mysqli_real_escape_string($conn, $data["values"]["email"]);
 
-    $sql = "SELECT id, email, name, password 
-            FROM users 
+    $sql = "SELECT user_id, email, name, password 
+            FROM user
             WHERE email = '$email';";
     try {
         $result = mysqli_query($conn, $sql);
@@ -119,9 +119,9 @@ function updatePassword($data) {
     $new_password = mysqli_real_escape_string($conn, $data['values']['new_password']);
 
     try {
-        $sql = "UPDATE users
+        $sql = "UPDATE user
                 SET password = '$new_password'
-                WHERE id = $id;";
+                WHERE user_id = $id;";
         if (!mysqli_query($conn, $sql)) {
             throw new Exception("<br>Failed to update user data: " . mysql_error($conn));
         }
@@ -132,4 +132,45 @@ function updatePassword($data) {
     finally {
         mysqli_close($conn);
     }
+}
+
+
+/**
+ * Function queries product data from "my_webshop.product" db.table, and returns the query result inside the $products array
+ * @return array $products => array $product_#... [
+ *                                      "product_id" => integer : Product ID,
+ *                                      "name" => string : Product name,
+ *                                      "brand" => string : Product brand,
+ *                                      "description" => string : Product description,
+ *                                      "price" => float : Product price,
+ *                                      "filename" => string: Filename of product image in Images folder ]
+ */
+function getProducts() {
+    $products = array();
+    $conn = connectToDB();
+    $sql = "SELECT product_id, name, brand, description, price, filename 
+            FROM product";
+
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $product = "product_#" . strval($row["product_id"]);
+                $products[$product] = $row;
+            }
+        }
+        else {
+            return NULL;
+        }
+    }
+    catch(Exception $e) {
+        echo $e->getmessage();
+    }
+    finally {
+        mysqli_close($conn);
+    }
+    return $products;
 }

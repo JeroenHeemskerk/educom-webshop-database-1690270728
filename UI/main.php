@@ -117,6 +117,10 @@ function showContent($data) {
             require "UI/change_password.php";
             showChangePassword($data);
             break;
+        case "webshop":
+            require "UI/webshop.php";
+            showWebshopPage($data);
+            break;
         default:
         require "UI/404.php";
             show404Page();

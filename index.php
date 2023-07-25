@@ -87,6 +87,11 @@ function loginUser($data) {
 }
 
 
+function isUserLoggedin() {
+    return isset($_SESSION["data"]);
+}
+
+
 /**
  * Function unsets user data inside session variable
  * @param array $data : Relevant user data

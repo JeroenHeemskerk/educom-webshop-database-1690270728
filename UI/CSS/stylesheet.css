@@ -164,3 +164,40 @@ form input[type="radio"] {
     text-align: center;
     padding-top: 50px;
 }
+
+.product_row {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+
+}
+
+.product_column {
+    flex: 50%;
+    background-color: white;
+    margin-bottom: 30px;
+}
+
+.product_column img, .product_column div {
+    display: block;
+    width: 35%;
+    margin: auto;
+}
+
+.brand {
+    font-size: x-large;
+    color: black;
+}
+
+.product_name {
+    color: #9BA4B5;
+    font-size: 16px;
+}
+
+.product_price {
+    color: black;
+    font-size: 16px;
+    font-weight: 200;
+}
