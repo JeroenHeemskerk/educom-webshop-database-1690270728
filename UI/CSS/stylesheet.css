@@ -82,7 +82,7 @@ h1 {
     margin-top: 50%;
 }
 
-.get_in_touch {
+.click_btn {
     width: 300px;
     height: 40px;
     background-color: #F86F03;
@@ -93,7 +93,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-.get_in_touch a {
+.click_btn a, .cart {
     color: white;
     font-size: x-large;
     text-decoration: none;
@@ -189,7 +189,7 @@ form input[type="radio"] {
 
 .product_column img, .product_column div {
     display: block;
-    width: 50%;
+    width: 40%;
     margin: auto;
 }
 
@@ -207,4 +207,10 @@ form input[type="radio"] {
     color: black;
     font-size: 16px;
     font-weight: 200;
+}
+
+.cart {
+    color: white;
+    font-size: large;
+    margin-left: 30px;
 }

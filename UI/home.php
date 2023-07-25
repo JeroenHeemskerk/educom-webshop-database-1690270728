@@ -14,6 +14,6 @@ function showHomeContent() {
                         <img class="home" src="UI/Images/me.JPG" alt="A profile picture of me">
                     </div>
                 </div>
-                <button type="button" class="get_in_touch"><a href="index.php?page=contact">Contact Me</a></button>
+                <button type="button" class="click_btn"><a href="index.php?page=contact">Contact Me</a></button>
             </div>';
 }

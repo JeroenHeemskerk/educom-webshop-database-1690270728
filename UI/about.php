@@ -17,7 +17,7 @@ function showAboutContent() {
                             <li>Reading</li>
                         </ul>
                     </p>
-                    <button class="get_in_touch" type="button"><a href="index.php?page=contact">Contact Me</a></button>
+                    <button class="click_btn" type="button"><a href="index.php?page=contact">Contact Me</a></button>
                 </div>
             </div>';
 }

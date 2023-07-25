@@ -42,7 +42,7 @@ function showProducts($products) {
 
 function getAddToCart() {
     if (isUserLoggedin()) {
-        return '<button type="button" class="add_to_cart">Add to Cart</button>';
+        return '<button type="button" class="click_btn cart">Add to Cart</button>';
     }
     else {
         return '';
