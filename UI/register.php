@@ -31,13 +31,13 @@ function showRegisterPage($data) {
 
                     <label for="password">Password</label>
                     <br>
-                    <input type="text" name="password" value="' . getValue($data, "password") . '">
+                    <input type="password" name="password" value="' . getValue($data, "password") . '">
                     ' . getError($data, "password") . '
                     <br>
 
                     <label for="confirm_password">Confirm password</label>
                     <br>
-                    <input type="text" name="confirm_password" value="' . getValue($data, "confirm_password") . '">
+                    <input type="password" name="confirm_password" value="' . getValue($data, "confirm_password") . '">
                     ' . getError($data, "confirm_password") . '
                     <br>
             <!- SUBMIT ->

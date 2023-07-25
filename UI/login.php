@@ -24,7 +24,7 @@ function showLoginPage($data) {
 
                     <label for="password">Password</label>
                     <br>
-                    <input type="text" name="password" value="' . getValue($data, "password") . '">
+                    <input type="password" name="password" value="' . getValue($data, "password") . '">
                     ' . getError($data, "password") . '
                     <br>
                     ' . getError($data, "authentication") . '

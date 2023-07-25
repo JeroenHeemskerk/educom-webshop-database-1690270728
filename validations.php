@@ -97,7 +97,6 @@ function validateData($data) {
             }
             break;
         case "change_password":
-            var_dump($data);
             if (!($data["values"]["current_password"] == $data["user"]["password"])) { # Check if 'current password' matches 'password' in database
                 $data["errors"]["current_password"] = "Your current password is incorrect";
             }
