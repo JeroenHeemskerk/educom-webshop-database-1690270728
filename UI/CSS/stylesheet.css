@@ -11,15 +11,21 @@ body {
 
 header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     background-color: #DDE6ED;
+}
+
+nav ul {
+    padding-left: 0;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 header li {
     list-style: none;
     display: inline-block;
-    padding: 0 8px;
+    padding: 2px 2px;
 }
 
 header a {
