@@ -173,9 +173,9 @@ form input[type="radio"] {
 
 .product_row {
     display: flex; 
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     background-color: white;
 
 }
@@ -184,11 +184,12 @@ form input[type="radio"] {
     flex: 50%;
     background-color: white;
     margin-bottom: 30px;
+    flex-grow: 0;
 }
 
 .product_column img, .product_column div {
     display: block;
-    width: 35%;
+    width: 50%;
     margin: auto;
 }
 
