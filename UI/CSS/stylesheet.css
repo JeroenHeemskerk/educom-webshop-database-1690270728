@@ -174,7 +174,7 @@ form input[type="radio"] {
 .product_row {
     display: flex; 
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-end;
     flex-direction: row;
     background-color: white;
 
@@ -189,7 +189,7 @@ form input[type="radio"] {
 
 .product_column img, .product_column div {
     display: block;
-    width: 40%;
+    width: 45%;
     margin: auto;
 }
 
@@ -213,4 +213,5 @@ form input[type="radio"] {
     color: white;
     font-size: large;
     margin-left: 30px;
+    border-radius: 15px 15px 15px 15px;
 }
