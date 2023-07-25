@@ -87,10 +87,13 @@ function validateData($data) {
         case "login":
             $data = findUserByEmail($data);
             if ($data["user_already_exists"]) { # Check if user data exists in database
-                if (!$data["values"]["email"] == $data["user"]["email"] && $data["values"]["password"] == $data["user"]["password"]) { # Check if 'email' and 'password' match user data in database, to authenticate user
+                if (!($data["values"]["email"] == $data["user"]["email"] && $data["values"]["password"] == $data["user"]["password"])) { # Check if 'email' and 'password' match user data in database, to authenticate user
                     $data["errors"]["authentication"] = "The email and password do not match";
                 }
             } 
+            else {
+                $data["errors"]["no_existing_user"] = "This user doesn't seem to exist";
+            }
             break;
         case "change_password":
             if (!$data["values"]["current_password"] == $data["user"]["password"]) { # Check if 'current password' matches 'password' in database

@@ -19,6 +19,7 @@ function showLoginPage($data) {
                     <br>
                     <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
                     ' . getError($data, "email") . '
+                    ' . getError($data, "no_existing_user") . '
                     <br>
 
                     <label for="password">Password</label>
