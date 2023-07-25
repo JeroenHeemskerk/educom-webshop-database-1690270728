@@ -41,7 +41,7 @@ function showProducts($products) {
 }
 
 function getAddToCart() {
-    if (isUserLoggedin()) {
+    if (isUserLoggedIn()) {
         return '<button type="button" class="click_btn cart">Add to Cart</button>';
     }
     else {

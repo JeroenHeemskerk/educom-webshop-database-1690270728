@@ -27,6 +27,7 @@ function getRequestedPage() {
  */
 function processRequest($page) {
     require "validations.php";
+    require "session_manager.php";
     switch($page) {
         case "contact":
             $data = validateContact();
@@ -72,10 +73,9 @@ function processRequest($page) {
  *                  "page_name" => string : Button text ]
  */
 function getMenuItems() {
-    if (isUserLoggedin()) {
-        $data["user"] = $_SESSION["data"]["user"];
-        $name = ucfirst(explode(" ", $data["user"]["name"])[0]);
-        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$name,"webshop"=>"Webshop");
+    if (isUserLoggedIn()) {
+        $firstname = ucfirst(explode(" ", getLoggedInUserName())[0]);
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$firstname,"webshop"=>"Webshop");
     }
     else {
         $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","register"=>"Register","login"=>"Login","webshop"=>"Webshop");
@@ -95,29 +95,3 @@ function showResponsePage($data) {
     showBodySection($data);
     showDocumentEnd();
 }   
-
-
-/**
- * Function sets user data inside session variable for use on other pages
- * @param array $data : Relevant user data
- */
-function loginUser($data) {
-    $_SESSION["data"] = $data;
-}
-
-/**
- * Function returns boolean to indicate if user is logged in or not
- * @return boolean : User logged in
- */
-function isUserLoggedin() {
-    return isset($_SESSION["data"]);
-}
-
-
-/**
- * Function unsets user data inside session variable
- * @param array $data : Relevant user data
- */
-function logoutUser() {
-    unset($_SESSION["data"]);
-}
