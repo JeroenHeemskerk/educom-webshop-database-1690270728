@@ -1,7 +1,6 @@
 <?php 
 
 function showWebshopPage($data) {
-    require "data_manipulation.php";
     $products = getProducts();
     echo '  <div class="content">
                 <h1>Webshop</h1>
