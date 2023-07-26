@@ -16,7 +16,8 @@ function showChangePassword($data) {
                 <form action="index.php" method="POST">
                     
                     <input type="hidden" name="page" value="change_password">
-            
+
+                    ' . getError($data, "generic") . '<br>
                     <label for="current_password">Current password</label>
                     <br>
                     <input type="password" name="current_password" value="' . getValue($data, "current_password") . '">

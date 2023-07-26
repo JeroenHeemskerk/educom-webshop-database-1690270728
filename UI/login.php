@@ -15,6 +15,7 @@ function showLoginPage($data) {
                 <form action="index.php" method="POST">
                     <input type="hidden" name="page" value="login">
 
+                    ' . getError($data, "generic") . '<br>
                     <label for="email">Email</label>
                     <br>
                     <input type="email" name="email" value="' . getValue($data, "email") . '">

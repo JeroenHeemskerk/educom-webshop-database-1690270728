@@ -4,20 +4,15 @@
  * Function connects to "my_webshop" database as user "webshop_user"
  * @return object $conn : Connection to the database
  */
-function connectToDB() {
+function connectToDatabase() {
     $servername = "localhost";
     $username = "webshop_user";
     $password = "AXN4OSdTm@ua]r4M";
     $dbname = "my_webshop";
 
-    try {
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-        if (!$conn) {
-            throw new Exception("<br>Failed to connect to MySQL: " . mysqli_connect_error());
-        }
-    }
-    catch(Exception $e) {
-        echo $e->getmessage();
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    if (!$conn) {
+        throw new Exception("<br>Failed to connect to MySQL: " . mysqli_connect_error());
     }
     return $conn;
 }
@@ -25,6 +20,7 @@ function connectToDB() {
 
 /**
  * Function inserts user 'Registration' data into "my_webshop.users" db.table 
+ * @param object $conn : Connection to the database
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
@@ -33,30 +29,24 @@ function connectToDB() {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity (TRUE) ]
  */
-function storeUser($data) {
-    $conn = connectToDB();
+function storeUser($conn, $data) {
     $email = mysqli_real_escape_string($conn, $data['values']['email']);
     $name = mysqli_real_escape_string($conn, $data['values']['name']);
     $password = mysqli_real_escape_string($conn, $data['values']['password']);
 
-    try {
-        $sql = "INSERT INTO user (email, name, password)
-                VALUES ('$email', '$name', '$password');";
-        if (!mysqli_query($conn, $sql)) {
-            throw new Exception("<br>Failed to insert user data: " . mysql_error($conn));
-        }
-    }
-    catch(Exception $e) {
-        echo $e->getmessage();
-    }
-    finally {
-        mysqli_close($conn);
+    $sql = "INSERT INTO user (email, name, password)
+            VALUES ('$email', '$name', '$password');";
+
+    if (!mysqli_query($conn, $sql)) {
+        throw new Exception("<br>Failed to store user data: " . mysql_error($conn));
     }
 }
 
 
 /**
- * Function queries user data from "my_webshop.users" db.table, and stores the query result inside the $data["user"] array
+ * Function returns user data inside of $data["user"] array
+ * User data is queried from "my_webshop.users" db.table
+ * @param object $conn : Connection to the database
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
@@ -72,39 +62,33 @@ function storeUser($data) {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
-function findUserByEmail($data) {
-    $conn = connectToDB();
+function findUserByEmail($conn, $data) {
     $email = mysqli_real_escape_string($conn, $data["values"]["email"]);
 
     $sql = "SELECT user_id, email, name, password 
             FROM user
             WHERE email = '$email';";
-    try {
-        $result = mysqli_query($conn, $sql);
-        if (!$result) {
-            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
-        }
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                if ($row["email"] == $email) {
-                    $data["user_already_exists"] = true;
-                    $data["user"] = $row;
-                }
+
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+    }
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($row["email"] == $email) {
+                $data["user_already_exists"] = true;
+                $data["user"] = $row;
             }
         }
-    }
-    catch(Exception $e) {
-        echo $e->getmessage();
-    }
-    finally {
-        mysqli_close($conn);
     }
     return $data;
 }
 
 
 /**
- * Function queries user data from "my_webshop.users" db.table, and stores the query result inside the $data["user"] array
+ * Function returns user data inside of $data["user"] array
+ * User data is queried from "my_webshop.users" db.table
+ * @param object $conn : Connection to the database
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
@@ -120,39 +104,33 @@ function findUserByEmail($data) {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
-function findUserById($user_id) {
-    $conn = connectToDB();
-    $email = mysqli_real_escape_string($conn, $user_id);
+function findUserById($conn, $user_id) {
+    $user_id = mysqli_real_escape_string($conn, $user_id);
 
     $sql = "SELECT user_id, email, name, password 
             FROM user
             WHERE user_id = '$user_id';";
-    try {
-        $result = mysqli_query($conn, $sql);
-        if (!$result) {
-            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
-        }
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                if ($row["user_id"] == $user_id) {
-                    $data["user_already_exists"] = true;
-                    $data["user"] = $row;
-                }
+
+
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+    }
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($row["user_id"] == $user_id) {
+                $data["user_already_exists"] = true;
+                $data["user"] = $row;
             }
         }
-    }
-    catch(Exception $e) {
-        echo $e->getmessage();
-    }
-    finally {
-        mysqli_close($conn);
     }
     return $data;
 }
 
 
 /**
- * Function uses "Change Password" data to update user password in "my_webshop.users" db.table 
+ * Function updates user password in "my_webshop.users" db.table 
+ * @param object $conn : Connection to the database
  * @param array $data [
  *                  "page" => string : Requested page,
  *                  "values" => array : User data submitted (clean),
@@ -161,64 +139,98 @@ function findUserById($user_id) {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity (TRUE) ]
  */
-function updatePassword($data) {
-    $conn = connectToDB();
+function updatePassword($conn, $data) {
     $id = mysqli_real_escape_string($conn, $data['user']['user_id']);
     $new_password = mysqli_real_escape_string($conn, $data['values']['new_password']);
 
-    try {
-        $sql = "UPDATE user
-                SET password = '$new_password'
-                WHERE user_id = $id;";
-        if (!mysqli_query($conn, $sql)) {
-            throw new Exception("<br>Failed to update user data: " . mysql_error($conn));
-        }
-    }
-    catch(Exception $e) {
-        echo $e->getmessage();
-    }
-    finally {
-        mysqli_close($conn);
+
+    $sql = "UPDATE user
+            SET password = '$new_password'
+            WHERE user_id = $id;";
+
+    if (!mysqli_query($conn, $sql)) {
+        throw new Exception("<br>Failed to update user data: " . mysql_error($conn));
     }
 }
 
 
 /**
- * Function queries product data from "my_webshop.product" db.table, and returns the query result inside the $products array
- * @return array $products => array $product_#... [
- *                                      "product_id" => integer : Product ID,
- *                                      "name" => string : Product name,
- *                                      "brand" => string : Product brand,
- *                                      "description" => string : Product description,
- *                                      "price" => float : Product price,
- *                                      "filename" => string: Filename of product image in Images folder ]
+ * Function returns product data inside of $data["products"] array
+ * Product data is queried from "my_webshop.product" db.table
+ * @param object $conn : Connection to the database
+ * @param array $data [    
+ *                  "page" => string : Requested page,
+ *                  "menu" => array : Menu items,
+ *                  "errors" => array : Empty ]
+ * @return array $data [    
+ *                  "page" => string : Requested page,
+ *                  "menu" => array : Menu items,
+ *                  "errors" => array : Empty,
+ *                  "products" => array [
+ *                      "product#..." [
+ *                          "product_id" => integer : Product ID,
+ *                          "name" => string : Product name,
+ *                          "brand" => string : Product brand,
+ *                          "description" => string : Product description,
+ *                          "price" => float : Product price,
+ *                          "filename" => string: Filename of product image in Images folder ]]]
  */
-function getProducts() {
-    $products = array();
-    $conn = connectToDB();
+function getProducts($conn, $data) {
+    $data["products"] = array();
     $sql = "SELECT product_id, name, brand, description, price, filename 
             FROM product";
 
-    try {
-        $result = mysqli_query($conn, $sql);
-        if (!$result) {
-            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+    }
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $product = "product#" . strval($row["product_id"]);
+            $data["products"][$product] = $row;
         }
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $product = "product_#" . strval($row["product_id"]);
-                $products[$product] = $row;
+    }
+    return $data;
+}
+
+
+/**
+ * Function handles exception when running queries
+ * @param string $query_name : Name of query to run
+ * @param array $data : Relevant data for user
+ * @return array $data : Relevant data for user
+ */
+function runQuery($query_name, $data) {
+    try { 
+        $conn = connectToDatabase();
+        try {
+            switch ($query_name) {
+                case "storeUser":
+                    storeUser($conn, $data);
+                    break;
+                case "findUserByEmail":
+                    $data = findUserByEmail($conn, $data);
+                    break;
+                case "findUserById":
+                    $data = findUserById($conn, getLoggedInUserId());
+                    break;
+                case "updatePassword":
+                    updatePassword($conn, $data);
+                    break;
+                case "getProducts":
+                    $data = getProducts($conn, $data);
+                    break;
             }
         }
-        else {
-            return NULL;
+        finally {
+            mysqli_close($conn);
         }
+    } 
+    catch (Exception $e) {
+        $data["errors"]["generic"] = 'Due to technical error, we cannot proceed with this process';
+        $data["valid"] = false;
+        showLog($e->getMessage());
     }
-    catch(Exception $e) {
-        echo $e->getmessage();
-    }
-    finally {
-        mysqli_close($conn);
-    }
-    return $products;
+    return $data;
 }

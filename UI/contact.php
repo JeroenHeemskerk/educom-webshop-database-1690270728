@@ -37,7 +37,6 @@ function showContactForm($data) {
                 <form action="index.php" method="POST">
                     <input type="hidden" id="page" name="page" value="contact">
 
-            <!- DROPDOWN ->
                     <label for="gender">Gender</label> 
                     <br>
                     <select id="gender" name="gender">
@@ -47,50 +46,48 @@ function showContactForm($data) {
                     </select>
                     ' . getError($data, "gender") . '
                     <br>
+  
 
-            <!- TEXTFIELDS ->     
-                        <label for="name">Name</label>
-                        <br>
-                        <input type="text" name="name" value="' . getArrayValue($data["values"], "name") . '">
-                        ' . getError($data, "name") . '
-                        <br>
+                    <label for="name">Name</label>
+                    <br>
+                    <input type="text" name="name" value="' . getArrayValue($data["values"], "name") . '">
+                    ' . getError($data, "name") . '
+                    <br>
 
-                        <label for="email">Email</label>
-                        <br>
-                        <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
-                        ' . getError($data, "email") . '
-                        <br>
+                    <label for="email">Email</label>
+                    <br>
+                    <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
+                    ' . getError($data, "email") . '
+                    <br>
 
-                        <label for="phone">Phone</label>
-                        <br>
-                        <input type="text" name="phone" value="' . getArrayValue($data["values"], "phone") . '">
-                        ' . getError($data, "phone") . '
-                        <br>
+                    <label for="phone">Phone</label>
+                    <br>
+                    <input type="text" name="phone" value="' . getArrayValue($data["values"], "phone") . '">
+                    ' . getError($data, "phone") . '
+                    <br>
 
-                        <label for="subject">Subject</label>
-                        <br>
-                        <input type="text" name="subject" value="' . getArrayValue($data["values"], "subject") . '">
-                        ' . getError($data, "subject") . '
-                        <br>
+                    <label for="subject">Subject</label>
+                    <br>
+                    <input type="text" name="subject" value="' . getArrayValue($data["values"], "subject") . '">
+                    ' . getError($data, "subject") . '
+                    <br>
 
-            <!- RADIO BUTTONS ->
-                        <label for="communication_preference">Communication preference</label>
-                        <br>
-                        <input type="radio" value="Email" name="communication_preference">
-                        <label for="email" class="radio">Email</label>
-                        <input type="radio" value="Phone" name="communication_preference">
-                        <label for="phone" class="radio">Phone</label>
-                        ' . getError($data, "communication_preference") . '
-                        <br>
+                    
+                    <label for="communication_preference">Communication preference</label>
+                    <br>
+                    <input type="radio" value="Email" name="communication_preference">
+                    <label for="email" class="radio">Email</label>
+                    <input type="radio" value="Phone" name="communication_preference">
+                    <label for="phone" class="radio">Phone</label>
+                    ' . getError($data, "communication_preference") . '
+                    <br>
 
-            <!- TEXTAREA ->
-                        <label for="message">Message</label>
-                        <br>
-                        <textarea name="message" cols="30" rows="10" value="' . getArrayValue($data["values"], "message") . '"></textarea>
-                        ' . getError($data, "message") . '
-                        <br>
+                    <label for="message">Message</label>
+                    <br>
+                    <textarea name="message" cols="30" rows="10" value="' . getArrayValue($data["values"], "message") . '"></textarea>
+                    ' . getError($data, "message") . '
+                    <br>
 
-            <!- SUBMIT ->
                     <input class="submit" type="submit" value="Submit">
                 </form>
             </div>';

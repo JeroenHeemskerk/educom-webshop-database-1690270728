@@ -1,7 +1,5 @@
 <?php
 
-require "data_manipulation.php";
-
 /**
  * Function cleans POST data, and stores the 'clean' values inside the $data["values"] array
  * @param array $data [
@@ -75,18 +73,18 @@ function validateData($data) {
 
     switch ($data["page"]) {
         case "register":
-            if (!$data["values"]["confirm_password"] == $data["values"]["password"]) { # Check if 'password' and 'confirm password' match
+            if (!($data["values"]["confirm_password"] == $data["values"]["password"])) { # Check if 'password' and 'confirm password' match
                 $data["errors"]["confirm_password"] = "Passwords do not match. Try again";
             }
             else {
-                $data = findUserByEmail($data);
+                $data = runQuery("findUserByEmail", $data);
                 if ($data["user_already_exists"]) { # Check if user data exists in database
                     $data["errors"]["user_already_exists"] = "A user with the same email already exists";
                 }
             }
             break;
         case "login":
-            $data = findUserByEmail($data);
+            $data = runQuery("findUserByEmail", $data);
             if ($data["user_already_exists"]) { # Check if user data exists in database
                 if (!($data["values"]["email"] == $data["user"]["email"] && $data["values"]["password"] == $data["user"]["password"])) { # Check if 'email' and 'password' match user data in database, to authenticate user
                     $data["errors"]["authentication"] = "The email and password do not match";
@@ -188,7 +186,7 @@ function validateNewPassword() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isUserLoggedIn()) {
 
-            $data = findUserById(getLoggedInUserId());
+            $data = runQuery("findUserById", $data);
         }
         $data = validateData($data);
     }

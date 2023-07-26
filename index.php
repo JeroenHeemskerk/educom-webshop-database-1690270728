@@ -1,5 +1,9 @@
 <?php
 
+require "session_manager.php";
+require "validations.php";
+require "data_manipulation.php";
+
 session_start();
 $page = getRequestedPage();
 $data = processRequest($page);
@@ -26,8 +30,7 @@ function getRequestedPage() {
  * @return array $data : Relevant user data
  */
 function processRequest($page) {
-    require "validations.php";
-    require "session_manager.php";
+    $data["errors"] = array();
     switch($page) {
         case "contact":
             $data = validateContact();
@@ -38,15 +41,17 @@ function processRequest($page) {
         case "register":
             $data = validateRegister();
             if ($data["valid"]) {
-                storeUser($data);
-                $page = "login";
+                $data = runQuery("storeUser", $data);
+                if ($data["valid"]) {
+                    $page = "login";
+                }
             }
             break;
         case "login":
             $data = validateLogin();
             if ($data["valid"]) {
-                $page = "home";
                 loginUser($data);
+                $page = "home";
             }
             break;
         case "logout":
@@ -56,10 +61,12 @@ function processRequest($page) {
         case "change_password":
             $data = validateNewPassword();
             if ($data["valid"]) {
-                updatePassword($data);
-                $page = "home";
-                break;
+                $data = runQuery("updatePassword", $data);
+                if ($data["valid"]) {
+                    $page = "home";
+                }
             }
+            break;
         }
     $data["page"] = $page;
     $data["menu"] = getMenuItems();
@@ -95,3 +102,11 @@ function showResponsePage($data) {
     showBodySection($data);
     showDocumentEnd();
 }   
+
+
+/**
+ * Function echoes message that's supposed to be recorded in log
+ */
+function showLog($message) {
+    echo $message;
+}

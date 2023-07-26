@@ -15,7 +15,7 @@ function showRegisterPage($data) {
                 <form action="index.php" method="POST">
                     <input type="hidden" name="page" value="register">
 
-            <!- TEXTFIELDS ->
+                    ' . getError($data, "generic") . '<br>
                     <label for="email">Email</label>
                     <br>
                     <input type="email" name="email" value="' . getValue($data, "email") . '">
@@ -40,7 +40,7 @@ function showRegisterPage($data) {
                     <input type="password" name="confirm_password" value="' . getValue($data, "confirm_password") . '">
                     ' . getError($data, "confirm_password") . '
                     <br>
-            <!- SUBMIT ->
+           
                     <input class="submit" type="submit" value="Submit">
                     <br>
                 </form>

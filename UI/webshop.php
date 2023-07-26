@@ -1,10 +1,11 @@
 <?php 
 
 function showWebshopPage($data) {
-    $products = getProducts();
+    $data = runQuery("getProducts", $data);
     echo '  <div class="content">
                 <h1>Webshop</h1>
-                ' . showProducts($products) . '
+                ' . getError($data, "generic") . '<br>
+                ' . showProducts($data["products"]) . '
             </div>';
 }
 
