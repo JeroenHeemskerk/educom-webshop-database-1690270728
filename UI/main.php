@@ -79,6 +79,8 @@ function showMenuItem($page_name, $button_text) {
  * @param array $data : Relevant user data based on requested page
  */
 function showContent($data) {
+    echo '<div class="content">';
+    showError($data, "generic");
     switch ($data["page"]) {
        case "home":
             require "UI/home.php";
@@ -113,9 +115,17 @@ function showContent($data) {
             showWebshopPage($data);
             break;
         default:
-        require "UI/404.php";
             show404Page();
     }
+    echo '</div>';
+}
+
+
+/**
+ * Function that displays the '404 page' content
+ */
+function show404Page() {
+    echo '<h1 id="page_not_found">404 - Page Not Found </h1>';
 }
 
 
@@ -148,7 +158,7 @@ function getValue($data, $key) {
  * @param string $key : Error key
  * @return ? : Value, if set (can be any type), otherwise returns empty string
  */
-function getError($data, $key) {
+function showError($data, $key) {
     if (empty(getArrayValue($data["errors"], $key))) {
         return '';
     }

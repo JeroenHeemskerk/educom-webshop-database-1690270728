@@ -2,11 +2,8 @@
 
 function showWebshopPage($data) {
     $data = runQuery("getProducts", $data);
-    echo '  <div class="content">
-                <h1>Webshop</h1>
-                ' . getError($data, "generic") . '<br>
-                ' . showProducts($data["products"]) . '
-            </div>';
+    echo    '<h1>Webshop</h1>
+            ' . showProducts($data["products"]);
 }
 
 
