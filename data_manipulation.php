@@ -104,8 +104,8 @@ function findUserByEmail($conn, $data) {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
-function findUserById($conn, $user_id) {
-    $user_id = mysqli_real_escape_string($conn, $user_id);
+function findUserById($conn, $data) {
+    $user_id = mysqli_real_escape_string($conn, getLoggedInUserId());
 
     $sql = "SELECT user_id, email, name, password 
             FROM user
@@ -213,7 +213,7 @@ function runQuery($query_name, $data) {
                     $data = findUserByEmail($conn, $data);
                     break;
                 case "findUserById":
-                    $data = findUserById($conn, getLoggedInUserId());
+                    $data = findUserById($conn, $data);
                     break;
                 case "updatePassword":
                     updatePassword($conn, $data);
