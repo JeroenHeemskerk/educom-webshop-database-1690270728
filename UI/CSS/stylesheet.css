@@ -99,10 +99,15 @@ h1 {
     text-decoration: none;
 }
 
-.aboutme {
+.aboutme, .thanks div {
     margin-left: 50px;
     margin-right: 50px;
     font-family: 'Roboto Mono', monospace;
+}
+
+.thanks h3, .thanks p {
+    margin-bottom: 0;
+    margin-left: 50px;
 }
 
 .aboutme img {

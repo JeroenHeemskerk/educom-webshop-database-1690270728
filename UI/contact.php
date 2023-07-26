@@ -9,14 +9,20 @@
  *                  "valid" => boolean : Data validity (TRUE) ]
  */
 function showContactThanks($data) {
-    echo   'Thank you for reaching out.<br><br>
-            Gender: ' . getValue($data, "gender") . '<br>
-            Name: ' . getValue($data, "name") . '<br>
-            Email: ' . getValue($data, "email") . '<br>
-            Phone: ' . getValue($data, "phone") . '<br>
-            Subject: ' . getValue($data, "subject") . '<br>
-            Communication preference: ' . getValue($data, "communication_preference") . '<br>
-            Message: ' . getValue($data, "message") . '<br>';  
+    echo   '<h1>Thank you</h1>
+            <div class="thanks">
+                <div>Thank you for reaching out, I\'ll get back to you soon 🙂</div>
+                <h3>Summary</h3>
+                <p>
+                    Gender: ' . getValue($data, "gender") . '<br>
+                    Name: ' . getValue($data, "name") . '<br>
+                    Email: ' . getValue($data, "email") . '<br>
+                    Phone: ' . getValue($data, "phone") . '<br>
+                    Subject: ' . getValue($data, "subject") . '<br>
+                    Communication preference: ' . getValue($data, "communication_preference") . '<br>
+                    Message: ' . getValue($data, "message") . '<br>
+                </p>
+            </div>';  
 }
 
 
