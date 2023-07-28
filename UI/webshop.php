@@ -1,12 +1,21 @@
 <?php 
 
-function showWebshopPage($data) {
+
+/**
+ * Display webshop page
+ */
+function showWebshopPage() {
     $products = getProducts();
     echo    '<h1>Webshop</h1>
             ' . showProducts($products);
 }
 
 
+/**
+ * Display products on webshop page
+ * 
+ * @param array $products: The products array
+ */
 function showProducts($products) {
     $content = "";
     $counter = 0;
@@ -37,6 +46,12 @@ function showProducts($products) {
     return $content;
 }
 
+
+/**
+ * Display add to cart button if user is logged in
+ * 
+ * @return string: Add to cart button if user is logged in -or- empty string if not logged in
+ */
 function getAddToCart() {
     if (isUserLoggedIn()) {
         return '<button type="button" class="click_btn cart">Add to Cart</button>';

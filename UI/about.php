@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Function that displays the 'About Me' content
+ * Display the About page content
  */
 function showAboutContent() {
     echo   '<h1>About Me</h1>

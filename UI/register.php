@@ -1,13 +1,9 @@
 <?php
 
 /**
- * Function that displays the 'Registration' page content
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors => array : (Empty/Error messages),
- *                  "user" => array : (Empty/User data from database),
- *                  "valid" => boolean : Data validity ]
+ * Display the Register page form
+ * 
+ * @param array $data: The data from register form validation
  */
 function showRegisterPage($data) {
     echo   '<h1>Registration</h1>

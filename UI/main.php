@@ -116,7 +116,7 @@ function showContent($data) {
             break;
         case "webshop":
             require "UI/webshop.php";
-            showWebshopPage($data);
+            showWebshopPage();
             break;
         default:
             show404Page();

@@ -27,13 +27,9 @@ function showContactThanks($data) {
 
 
 /**
- * Function that displays the 'Contact Me' form
- * Important! The $data["errors"] contains errors messages when submitted user data is not valid
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors => array : (Empty/Error messages),
- *                  "valid" => boolean : Data validity ]
+ * Display the Contact Me form
+ * 
+ * @param array $data: The data from contact form validation
  */
 function showContactForm($data) {
     echo   '<h1>Contact Me</h1>

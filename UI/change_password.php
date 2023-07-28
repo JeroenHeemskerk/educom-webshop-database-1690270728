@@ -1,13 +1,9 @@
 <?php
 
 /**
- * Function displays the 'Change Password' page content
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors => array : (Empty/Error messages),
- *                  "user" => array : (Empty/User data from database),
- *                  "valid" => boolean : Data validity ]
+ * Display the Change Password page form
+ * 
+ * @param array $data: The data from new password validation
  */
 function showChangePassword($data) {
     echo   '<h1>Change Password</h1>
