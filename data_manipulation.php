@@ -195,3 +195,38 @@ function getProducts() {
         mysqli_close($conn);
     }
 }
+
+
+/**
+ * Find product by product id 
+ * 
+ * @param string $product_id: The product id
+ * 
+ * @return array $product: The product in database
+ * 
+ * @throws Exception: When unable to interact with database
+ */
+function getProductById($product_id) {
+    $conn = connectToDatabase();
+    $product_id = mysqli_real_escape_string($conn, $product_id);
+    $sql = "SELECT name, brand, description, price, filename 
+            FROM product
+            WHERE product_id = CONVERT('$product_id', UNSIGNED)";
+
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row["product_id"] = $product_id) {
+                    return $row;
+                }
+            }
+        }
+    }
+    finally {
+        mysqli_close($conn);
+    }
+}

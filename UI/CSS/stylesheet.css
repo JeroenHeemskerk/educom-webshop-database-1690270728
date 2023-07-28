@@ -198,6 +198,10 @@ form input[type="radio"] {
     margin: auto;
 }
 
+.product_column a {
+    text-decoration: none;
+}
+
 .brand {
     font-size: x-large;
     color: black;
@@ -220,3 +224,23 @@ form input[type="radio"] {
     margin-left: 30px;
     border-radius: 15px 15px 15px 15px;
 }
+
+.detail_row {
+    display: flex;
+    background-color: white;
+    align-items: center;
+}
+
+.detail_column {
+    flex: 50%;
+    align-content: center;
+}
+
+.detail_column img, .detail_column .cart {
+    width: 80%;
+    margin-left: 0;
+}
+
+button:hover, .product_column a:hover {
+    opacity: 0.7;
+  }

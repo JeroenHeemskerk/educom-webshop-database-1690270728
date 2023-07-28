@@ -119,7 +119,6 @@ function validateContact($page) {
  *                      "errors" => array: Empty if no errors -or- Errors message(s),
  *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
  *                     ]
- * @throws Exception: When unable to get user data from database 
  */
 function validateRegister($page) {
     $data = array("values"=>getFormFields($page),"errors"=>array(),"valid"=>false);
@@ -159,7 +158,6 @@ function validateRegister($page) {
  *                      "user" => array: Empty if user does not exist -or- user ID and username,
  *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
  *                     ]
- * @throws Exception: When unable to get user data from database 
  */
 function validateLogin($page) {
     $data = array("values"=>getFormFields($page),"errors"=>array(),"user"=>array(),"valid"=>false);
@@ -205,7 +203,6 @@ function validateLogin($page) {
  *                      "user" => array: Empty if user does not exist -or- user ID and username,
  *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
  *                     ]
- * @throws Exception: When unable to get user data from database 
  */
 function validateNewPassword($page) {
     $data = array("values"=>getFormFields($page),"errors"=>array(),"user"=>array(),"valid"=>false);

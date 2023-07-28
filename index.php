@@ -66,6 +66,10 @@ function processRequest($page) {
                 $page = "home";
             }
             break;
+        case "detail":
+            $product_id = isset($_GET["product"]) ? $_GET["product"] : "";
+            $product = getProductById($product_id);
+            $data["product"] = $product;
         }
     $data["page"] = $page;
     $data["menu"] = getMenuItems();

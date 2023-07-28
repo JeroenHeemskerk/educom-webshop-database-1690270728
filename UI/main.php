@@ -118,6 +118,10 @@ function showContent($data) {
             require "UI/webshop.php";
             showWebshopPage();
             break;
+        case "detail":
+            require "UI/detail.php";
+            showDetailPage($data["product"]);
+            break;
         default:
             show404Page();
     }
@@ -244,4 +248,19 @@ function getPostValue($key) {
  */
 function showLog($message) {
     echo $message;
+}
+
+
+/**
+ * Display add to cart button if user is logged in
+ * 
+ * @return string: Add to cart button if user is logged in -or- empty string if not logged in
+ */
+function getAddToCart() {
+    if (isUserLoggedIn()) {
+        return '<button type="button" class="click_btn cart">Add to Cart</button>';
+    }
+    else {
+        return '';
+    }
 }
