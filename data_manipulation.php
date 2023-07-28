@@ -1,8 +1,11 @@
 <?php 
 
 /**
- * Function connects to "my_webshop" database as user "webshop_user"
+ * Connect to database
+ * 
  * @return object $conn : Connection to the database
+ * 
+ * @throws Exception: When unable to connect to database
  */
 function connectToDatabase() {
     $servername = "localhost";
@@ -19,15 +22,13 @@ function connectToDatabase() {
 
 
 /**
- * Function inserts user 'Registration' data into "my_webshop.users" db.table 
- * @param object $conn : Connection to the database
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Empty,
- *                  "user" => array : User data from database (user_id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity (TRUE) ]
+ * Insert user data in database
+ * 
+ * @param string $email: The user email
+ * @param string $name: The user name
+ * @param string $password: The user password
+ * 
+ * @throws Exception: When unable to interact with database
  */
 function storeUser($email, $name, $password) {
     $conn = connectToDatabase();
@@ -51,23 +52,13 @@ function storeUser($email, $name, $password) {
 
 
 /**
- * Function returns user data inside of $data["user"] array
- * User data is queried from "my_webshop.users" db.table
- * @param object $conn : Connection to the database
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Empty,
- *                  "user" => array : Empty,
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
- * @return array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Empty,
- *                  "user" => array : User data from database (user_id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
+ * Find user data by email
+ * 
+ * @param string $email: The user email
+ * 
+ * @return: User data if exists -or- NULL
+ * 
+ * @throws Exception: When unable to interact with database
  */
 function findUserByEmail($email) {
     $conn = connectToDatabase();
@@ -97,23 +88,13 @@ function findUserByEmail($email) {
 
 
 /**
- * Function returns user data inside of $data["user"] array
- * User data is queried from "my_webshop.users" db.table
- * @param object $conn : Connection to the database
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Empty,
- *                  "user" => array : Empty,
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
- * @return array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Empty,
- *                  "user" => array : User data from database (user_id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
+ * Find user data by ID
+ * 
+ * @param string $user_id: The user ID
+ * 
+ * @return: User data if exists -or- NULL
+ * 
+ * @throws Exception: When unable to interact with database
  */
 function findUserById($user_id) {
     $conn = connectToDatabase();
@@ -143,15 +124,26 @@ function findUserById($user_id) {
 
 
 /**
- * Function updates user password in "my_webshop.users" db.table 
- * @param object $conn : Connection to the database
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (clean),
- *                  "errors" => array : Empty,
- *                  "user" => array : User data from database (user_id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity (TRUE) ]
+ * Check by email if user already exists in database
+ * 
+ * @param string $email: The user email
+ * 
+ * @return boolean: TRUE if user exists -or- FALSE if not
+ * 
+ * @throws Exception: When unable to interact with database
+ */
+function doesEmailExist($email) {
+    return (!is_null(findUserByEmail($email)));
+}
+
+
+/**
+ * Update user password in database
+ * 
+ * @param string $user_id: The user ID
+ * @param string $new_password: The new user password
+ * 
+ * @throws Exception: When unable to interact with database
  */
 function updatePassword($user_id, $new_password) {
     $conn = connectToDatabase();
@@ -174,25 +166,11 @@ function updatePassword($user_id, $new_password) {
 
 
 /**
- * Function returns product data inside of $data["products"] array
- * Product data is queried from "my_webshop.product" db.table
- * @param object $conn : Connection to the database
- * @param array $data [    
- *                  "page" => string : Requested page,
- *                  "menu" => array : Menu items,
- *                  "errors" => array : Empty ]
- * @return array $data [    
- *                  "page" => string : Requested page,
- *                  "menu" => array : Menu items,
- *                  "errors" => array : Empty,
- *                  "products" => array [
- *                      "product#..." [
- *                          "product_id" => integer : Product ID,
- *                          "name" => string : Product name,
- *                          "brand" => string : Product brand,
- *                          "description" => string : Product description,
- *                          "price" => float : Product price,
- *                          "filename" => string: Filename of product image in Images folder ]]]
+ * Get products from database
+ * 
+ * @return array $products: The products in database
+ * 
+ * @throws Exception: When unable to interact with database
  */
 function getProducts() {
     $conn = connectToDatabase();
@@ -216,45 +194,4 @@ function getProducts() {
     finally {
         mysqli_close($conn);
     }
-}
-
-
-/**
- * Function handles exception when running queries
- * @param string $query_name : Name of query to run
- * @param array $data : Relevant data for user
- * @return array $data : Relevant data for user
- */
-function runQuery($query_name, $data) {
-    try { 
-        $conn = connectToDatabase();
-        try {
-            switch ($query_name) {
-                case "storeUser":
-                    storeUser($conn, $data);
-                    break;
-                case "findUserByEmail":
-                    $data = findUserByEmail($conn, $data);
-                    break;
-                case "findUserById":
-                    $data = findUserById($conn, $data);
-                    break;
-                case "updatePassword":
-                    updatePassword($conn, $data);
-                    break;
-                case "getProducts":
-                    $data = getProducts($conn, $data);
-                    break;
-            }
-        }
-        finally {
-            mysqli_close($conn);
-        }
-    } 
-    catch (Exception $e) {
-        $data["errors"]["generic"] = 'Due to technical error, we cannot proceed with this process';
-        $data["valid"] = false;
-        showLog($e->getMessage());
-    }
-    return $data;
 }

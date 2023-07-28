@@ -1,8 +1,7 @@
 <?php
 
-
 /**
- * Function displays the HTML document start
+ * Display the HTML document opening tag
  */
 function showDocumentStart() {
     echo '<!DOCTYPE html>
@@ -11,8 +10,9 @@ function showDocumentStart() {
 
 
 /**
- * Function displays the HTML document head section
- * @param array $data : Relevant user data 
+ * Display the HTML document head section
+ * 
+ * @param array $data : Relevant page data 
  */
 function showHeadSection($data) {
     echo '<head>
@@ -27,8 +27,9 @@ function showHeadSection($data) {
 
 
 /**
- * Function displays the HTML document body section
- * @param array $data : Relevant user data
+ * Display the HTML document body section
+ * 
+ * @param array $data : Relevant page data
  */
 function showBodySection($data) {
     showBodyStart();
@@ -40,7 +41,7 @@ function showBodySection($data) {
 
 
 /**
- * Function displays the HTML body start
+ * Display the HTML body opening tag
  */
 function showBodyStart() {
     echo '<body>';
@@ -48,8 +49,9 @@ function showBodyStart() {
 
 
 /**
- * Function displays the HTML header section
- * @param array $data : Relevant user data based on requested page
+ * Display the HTML header section
+ * 
+ * @param array $data : Relevant menu items based on requested page
  */
 function showMenu($data) {
     echo   '<header>
@@ -65,18 +67,20 @@ function showMenu($data) {
 
 
 /**
- * Function echos a menu item button
- * @param string $page_name : Page name for navigation link
- * @param string $button_text : Text for button
+ * Display a menu item 
+ * 
+ * @param string $page: The requested page
+ * @param string $button_text : The text for the menu item button
  */
-function showMenuItem($page_name, $button_text) {
-    echo '<li><button type="button"><a class="navlink" href="index.php?page=' . $page_name . '">' . $button_text . '</a></button></li>';
+function showMenuItem($page, $button_text) {
+    echo '<li><button type="button"><a class="navlink" href="index.php?page=' . $page . '">' . $button_text . '</a></button></li>';
 }
 
 
 /**
- * Function displays the relevant page content
- * @param array $data : Relevant user data based on requested page
+ * Display page content
+ * 
+ * @param array $data: Relevant page data
  */
 function showContent($data) {
     echo '<div class="content">';
@@ -122,7 +126,7 @@ function showContent($data) {
 
 
 /**
- * Function that displays the '404 page' content
+ * Display the 404 page content
  */
 function show404Page() {
     echo '<h1 id="page_not_found">404 - Page Not Found </h1>';
@@ -130,10 +134,62 @@ function show404Page() {
 
 
 /**
- * Function gets a value from a specified array and specified key
- * @param array $array : Array of your choice
- * @param string $key : Key of your choice
- * @return ? : Value if set (can be any type), otherwise returns empty string
+ * Display the HTML document footer section
+ */
+function showFooter() {
+    echo   '<footer>
+                <p>Copyright &copy; Quincy 2023</p>
+            </footer>';
+}
+
+
+/**
+ * Display the HTML document body closing tag
+ */
+function showBodyEnd() {
+    echo    '</body>';
+}
+
+
+/**
+ * Display the HTML document closing tag 
+ */
+function showDocumentEnd() {
+    echo '</html>';
+}
+
+
+/**
+ * Return boolean to indicate if the request method is POST
+ * 
+ * @return boolean: TRUE if request method is POST -or- FALSE if not 
+ */
+function requestMethodIsPost() {
+    return $_SERVER["REQUEST_METHOD"] == "POST";
+}
+
+
+/**
+ * Get the correct form fields depending on requested page
+ * 
+ * @return array: The form fields
+ */
+function getFormFields($page) {
+    $fields = array("contact"=>array("gender"=>"","name"=>"","email"=>"","phone"=>"","subject"=>"","communication_preference"=>"","message"=>""),
+                    "register"=>array("email"=>"","name"=>"","password"=>"","confirm_password"=>""),
+                    "login"=>array("email"=>"","password"=>""),
+                    "change_password"=>array("current_password"=>"","new_password"=>"","confirm_new_password"=>""));
+    return $fields[$page];
+}
+
+
+/**
+ * Get a value from an array
+ * 
+ * @param array $array: The array
+ * @param string $key : The key
+ * 
+ * @return: Value if this is set -or- empty string
  */
 function getArrayValue($array, $key) { 
     return isset($array[$key]) ? $array[$key] : ''; 
@@ -141,22 +197,12 @@ function getArrayValue($array, $key) {
 
 
 /**
- * Function gets the value from the $data["values"] array for the specified key
- * @param array $data [
- *                  "values" => array : User data submitted ]
- * @param string $key : Key of your choice
- * @return ? : Value if set (can be any type), otherwise returns empty string
- */
-function getValue($data, $key) { 
-    return isset($data["values"][$key]) ? $data["values"][$key] : ''; 
-}
-
-
-/**
- * Function displays an error message based on specified key
- * @param array $data : Relevant user data
- * @param string $key : Error key
- * @return ? : Value, if set (can be any type), otherwise returns empty string
+ * Display an error message 
+ * 
+ * @param array $data: Data from form validation
+ * @param string $key: The key
+ * 
+ * @return string: Error message(s) if there are error(s) -or- empty string if no errors
  */
 function showError($data, $key) {
     if (empty(getArrayValue($data["errors"], $key))) {
@@ -169,26 +215,20 @@ function showError($data, $key) {
 
 
 /**
- * Function displays the HTML document footer section
+ * Return POST input
+ * 
+ * @param string $key: The input key
  */
-function showFooter() {
-    echo   '<footer>
-                <p>Copyright &copy; Quincy 2023</p>
-            </footer>';
+function getPostValue($key) {
+    return isset($_POST[$key]) ? $_POST[$key] : "";
 }
 
 
 /**
- * Function displays the HTML document body end
+ * Display log
+ * 
+ * @param string $message: The log message
  */
-function showBodyEnd() {
-    echo    '</body>';
-}
-
-
-/**
- * Function displays the HTML document end 
- */
-function showDocumentEnd() {
-    echo '</html>';
+function showLog($message) {
+    echo $message;
 }

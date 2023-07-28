@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Function sets user data inside session variable for use on other pages
- * @param array $data : Relevant user data
+ * Set user data inside session variable for use on other pages
+ * 
+ * @param array $data: User data
  */
 function loginUser($data) {
     $_SESSION["user_name"] = $data["user"]["name"];
@@ -10,8 +11,9 @@ function loginUser($data) {
 }
 
 /**
- * Function returns boolean to indicate if user is logged in or not
- * @return boolean : User logged in
+ * Return boolean to indicate if user is logged in or not
+ * 
+ * @return boolean: TRUE if user is logged in -or- FALSE if not logged in
  */
 function isUserLoggedIn() {
     return isset($_SESSION["user_name"]);
@@ -19,8 +21,9 @@ function isUserLoggedIn() {
 
 
 /**
- * Function returns user data array
- * @return array : User data stored in Session (id, email, name, password)
+ * Return user ID
+ * 
+ * @return int: User ID
  */
 function getLoggedInUserId() {
     return $_SESSION["user_id"];
@@ -28,8 +31,9 @@ function getLoggedInUserId() {
 
 
 /**
- * Function returns user name 
- * @return string : User name stored in Session (id, email, name, password)
+ * Return user name 
+ * 
+ * @return string: User name 
  */
 function getLoggedInUserName() {
     return $_SESSION["user_name"];
@@ -37,8 +41,7 @@ function getLoggedInUserName() {
 
 
 /**
- * Function unsets user data inside session variable
- * @param array $data : Relevant user data
+ * Unset user data inside session variable
  */
 function logoutUser() {
     unset($_SESSION["user_name"]);

@@ -12,8 +12,9 @@ showResponsePage($data);
 
 
 /**
- * Function gets the requested page, via POST or GET method
- * @return string $page : Requested page
+ * Get the requested page
+ * 
+ * @return string $page : The requested page
  */
 function getRequestedPage() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,27 +28,28 @@ function getRequestedPage() {
 
 
 /**
- * Function processes the page requests
- * @return array $data : Relevant user data
+ * Process the page requests
+ * 
+ * @return array $data : Relevant page data
  */
 function processRequest($page) {
     $data["errors"] = array();
     switch($page) {
         case "contact":
-            $data = validateContact();
+            $data = validateContact($page);
             if ($data["valid"]) {
                 $page = "thanks";
             }
             break;
         case "register":
-            $data = validateRegister();
+            $data = validateRegister($page);
             if ($data["valid"]) {
                 storeUser($data["values"]["email"],$data["values"]["name"],$data["values"]["password"]);
                 $page = "login";
             }
             break;
         case "login":
-            $data = validateLogin();
+            $data = validateLogin($page);
             if ($data["valid"]) {
                 loginUser($data);
                 $page = "home";
@@ -58,7 +60,7 @@ function processRequest($page) {
             $page = "home";
             break;
         case "change_password":
-            $data = validateNewPassword();
+            $data = validateNewPassword($page);
             if ($data["valid"]) {
                 updatePassword($data["user"]["user_id"], $data["values"]["new_password"]);
                 $page = "home";
@@ -72,9 +74,9 @@ function processRequest($page) {
 
 
 /**
- * Function returns the right navigation menu items, based on if user is logged in or not
- * @return array $menu [
- *                  "page_name" => string : Button text ]
+ * Get the right menu items based on if user is logged in or not
+ * 
+ * @return array $menu: The menu items
  */
 function getMenuItems() {
     if (isUserLoggedIn()) {
@@ -89,25 +91,13 @@ function getMenuItems() {
 
 
 /**
- * Displays the response page
+ * Display the response page
  * 
- * @param array $data : Relevant user data
+ * @param array $data : Relevant page data
  */
 function showResponsePage($data) {
     showDocumentStart();
     showHeadSection($data);
     showBodySection($data);
     showDocumentEnd();
-}   
-
-
-/**
- * Function echoes message that's supposed to be recorded in log
- */
-function showLog($message) {
-    echo $message;
-}
-
-function doesEmailExist($email) {
-    return (!is_null(findUserByEmail($email)));
 }

@@ -1,9 +1,9 @@
 <?php 
 
 function showWebshopPage($data) {
-    $data = runQuery("getProducts", $data);
+    $products = getProducts();
     echo    '<h1>Webshop</h1>
-            ' . showProducts($data["products"]);
+            ' . showProducts($products);
 }
 
 
