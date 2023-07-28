@@ -3,6 +3,7 @@
 require "session_manager.php";
 require "validations.php";
 require "data_manipulation.php";
+require "UI/main.php";
 
 session_start();
 $page = getRequestedPage();
@@ -41,10 +42,8 @@ function processRequest($page) {
         case "register":
             $data = validateRegister();
             if ($data["valid"]) {
-                $data = runQuery("storeUser", $data);
-                if ($data["valid"]) {
-                    $page = "login";
-                }
+                storeUser($data["values"]["email"],$data["values"]["name"],$data["values"]["password"]);
+                $page = "login";
             }
             break;
         case "login":
@@ -61,10 +60,8 @@ function processRequest($page) {
         case "change_password":
             $data = validateNewPassword();
             if ($data["valid"]) {
-                $data = runQuery("updatePassword", $data);
-                if ($data["valid"]) {
-                    $page = "home";
-                }
+                updatePassword($data["user"]["user_id"], $data["values"]["new_password"]);
+                $page = "home";
             }
             break;
         }
@@ -92,11 +89,11 @@ function getMenuItems() {
 
 
 /**
- * Function displays the response page
+ * Displays the response page
+ * 
  * @param array $data : Relevant user data
  */
 function showResponsePage($data) {
-    require "UI/main.php";
     showDocumentStart();
     showHeadSection($data);
     showBodySection($data);
@@ -109,4 +106,8 @@ function showResponsePage($data) {
  */
 function showLog($message) {
     echo $message;
+}
+
+function doesEmailExist($email) {
+    return (!is_null(findUserByEmail($email)));
 }

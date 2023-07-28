@@ -29,17 +29,24 @@ function connectToDatabase() {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity (TRUE) ]
  */
-function storeUser($conn, $data) {
-    $email = mysqli_real_escape_string($conn, $data['values']['email']);
-    $name = mysqli_real_escape_string($conn, $data['values']['name']);
-    $password = mysqli_real_escape_string($conn, $data['values']['password']);
+function storeUser($email, $name, $password) {
+    $conn = connectToDatabase();
+    $email = mysqli_real_escape_string($conn, $email);
+    $name = mysqli_real_escape_string($conn, $name);
+    $password = mysqli_real_escape_string($conn, $password);
 
     $sql = "INSERT INTO user (email, name, password)
             VALUES ('$email', '$name', '$password');";
 
-    if (!mysqli_query($conn, $sql)) {
-        throw new Exception("<br>Failed to store user data: " . mysql_error($conn));
+    try {
+        if (!mysqli_query($conn, $sql)) {
+            throw new Exception("<br>Failed to store user data: " . mysql_error($conn));
+        }
     }
+    finally {
+        mysqli_close($conn);
+    }
+    
 }
 
 
@@ -62,26 +69,30 @@ function storeUser($conn, $data) {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
-function findUserByEmail($conn, $data) {
-    $email = mysqli_real_escape_string($conn, $data["values"]["email"]);
+function findUserByEmail($email) {
+    $conn = connectToDatabase();
+    $email = mysqli_real_escape_string($conn, $email);
 
     $sql = "SELECT user_id, email, name, password 
             FROM user
             WHERE email = '$email';";
 
-    $result = mysqli_query($conn, $sql);
-    if (!$result) {
-        throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
-    }
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            if ($row["email"] == $email) {
-                $data["user_already_exists"] = true;
-                $data["user"] = $row;
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row["email"] == $email) {
+                    return $row;
+                }
             }
         }
     }
-    return $data;
+    finally {
+        mysqli_close($conn);
+    }
 }
 
 
@@ -104,27 +115,30 @@ function findUserByEmail($conn, $data) {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity ]
  */
-function findUserById($conn, $data) {
-    $user_id = mysqli_real_escape_string($conn, getLoggedInUserId());
+function findUserById($user_id) {
+    $conn = connectToDatabase();
+    $user_id = mysqli_real_escape_string($conn, $user_id);
 
     $sql = "SELECT user_id, email, name, password 
             FROM user
             WHERE user_id = '$user_id';";
 
-
-    $result = mysqli_query($conn, $sql);
-    if (!$result) {
-        throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
-    }
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            if ($row["user_id"] == $user_id) {
-                $data["user_already_exists"] = true;
-                $data["user"] = $row;
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row["user_id"] == $user_id) {
+                    return $row;
+                }
             }
         }
     }
-    return $data;
+    finally {
+        mysqli_close($conn);
+    }
 }
 
 
@@ -139,18 +153,23 @@ function findUserById($conn, $data) {
  *                  "user_already_exists" => boolean : Flag variable,
  *                  "valid" => boolean: Data validity (TRUE) ]
  */
-function updatePassword($conn, $data) {
-    $id = mysqli_real_escape_string($conn, $data['user']['user_id']);
-    $new_password = mysqli_real_escape_string($conn, $data['values']['new_password']);
-
+function updatePassword($user_id, $new_password) {
+    $conn = connectToDatabase();
+    $id = mysqli_real_escape_string($conn, $user_id);
+    $new_password = mysqli_real_escape_string($conn, $new_password);
 
     $sql = "UPDATE user
             SET password = '$new_password'
             WHERE user_id = $id;";
-
-    if (!mysqli_query($conn, $sql)) {
-        throw new Exception("<br>Failed to update user data: " . mysql_error($conn));
+    try {
+        if (!mysqli_query($conn, $sql)) {
+            throw new Exception("<br>Failed to update user data: " . mysql_error($conn));
+        }
     }
+    finally {
+        mysqli_close($conn);
+    }
+    
 }
 
 
@@ -175,23 +194,28 @@ function updatePassword($conn, $data) {
  *                          "price" => float : Product price,
  *                          "filename" => string: Filename of product image in Images folder ]]]
  */
-function getProducts($conn, $data) {
-    $data["products"] = array();
+function getProducts() {
+    $conn = connectToDatabase();
+    $products = array();
     $sql = "SELECT product_id, name, brand, description, price, filename 
             FROM product";
 
-
-    $result = mysqli_query($conn, $sql);
-    if (!$result) {
-        throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
-    }
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $product = "product#" . strval($row["product_id"]);
-            $data["products"][$product] = $row;
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select user data: " . mysql_error($conn));
         }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $product = "product#" . strval($row["product_id"]);
+                $products[$product] = $row;
+            }
+        }
+        return $products;
     }
-    return $data;
+    finally {
+        mysqli_close($conn);
+    }
 }
 
 
