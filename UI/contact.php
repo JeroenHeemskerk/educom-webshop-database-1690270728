@@ -53,25 +53,25 @@ function showContactForm($data) {
 
                 <label for="name">Name</label>
                 <br>
-                <input type="text" name="name" value="' . getArrayValue($data["values"], "name") . '">
+                <input type="text" name="name" value="' . getValue($data["values"], "name") . '">
                 ' . showError($data, "name") . '
                 <br>
 
                 <label for="email">Email</label>
                 <br>
-                <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
+                <input type="email" name="email" value="' . getValue($data["values"], "email") . '">
                 ' . showError($data, "email") . '
                 <br>
 
                 <label for="phone">Phone</label>
                 <br>
-                <input type="text" name="phone" value="' . getArrayValue($data["values"], "phone") . '">
+                <input type="text" name="phone" value="' . getValue($data["values"], "phone") . '">
                 ' . showError($data, "phone") . '
                 <br>
 
                 <label for="subject">Subject</label>
                 <br>
-                <input type="text" name="subject" value="' . getArrayValue($data["values"], "subject") . '">
+                <input type="text" name="subject" value="' . getValue($data["values"], "subject") . '">
                 ' . showError($data, "subject") . '
                 <br>
 
@@ -87,7 +87,7 @@ function showContactForm($data) {
 
                 <label for="message">Message</label>
                 <br>
-                <textarea name="message" cols="30" rows="10" value="' . getArrayValue($data["values"], "message") . '"></textarea>
+                <textarea name="message" cols="30" rows="10" value="' . getValue($data["values"], "message") . '"></textarea>
                 ' . showError($data, "message") . '
                 <br>
 

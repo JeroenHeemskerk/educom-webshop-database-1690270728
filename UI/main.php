@@ -191,8 +191,21 @@ function getFormFields($page) {
  * 
  * @return: Value if this is set -or- empty string
  */
-function getArrayValue($array, $key) { 
-    return isset($array[$key]) ? $array[$key] : ''; 
+function getArrayValue($data, $key) { 
+    return isset($data[$key]) ? $data[$key] : ''; 
+}
+
+
+/**
+ * Get a value from the values array
+ * 
+ * @param array $array: The array
+ * @param string $key : The key
+ * 
+ * @return: Value if this is set -or- empty string
+ */
+function getValue($data, $key) { 
+    return isset($data["values"][$key]) ? $data["values"][$key] : ''; 
 }
 
 
