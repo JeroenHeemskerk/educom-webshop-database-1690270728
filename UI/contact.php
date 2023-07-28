@@ -9,15 +9,19 @@
  *                  "valid" => boolean : Data validity (TRUE) ]
  */
 function showContactThanks($data) {
-    echo   '<div class="content">
-                Thank you for reaching out.<br><br>
-                Gender: ' . getArrayValue($data["values"], "gender") . '<br>
-                Name: ' . getArrayValue($data["values"], "name") . '<br>
-                Email: ' . getArrayValue($data["values"], "email") . '<br>
-                Phone: ' . getArrayValue($data["values"], "phone") . '<br>
-                Subject: ' . getArrayValue($data["values"], "subject") . '<br>
-                Communication preference: ' . getArrayValue($data["values"], "communication_preference") . '<br>
-                Message: ' . getArrayValue($data["values"], "message") . '<br>
+    echo   '<h1>Thank you</h1>
+            <div class="thanks">
+                <div>Thank you for reaching out, I\'ll get back to you soon 🙂</div>
+                <h3>Summary</h3>
+                <p>
+                    Gender: ' . getValue($data, "gender") . '<br>
+                    Name: ' . getValue($data, "name") . '<br>
+                    Email: ' . getValue($data, "email") . '<br>
+                    Phone: ' . getValue($data, "phone") . '<br>
+                    Subject: ' . getValue($data, "subject") . '<br>
+                    Communication preference: ' . getValue($data, "communication_preference") . '<br>
+                    Message: ' . getValue($data, "message") . '<br>
+                </p>
             </div>';  
 }
 
@@ -32,66 +36,61 @@ function showContactThanks($data) {
  *                  "valid" => boolean : Data validity ]
  */
 function showContactForm($data) {
-    echo   '<div class="content">
-                <h1>Contact Me</h1>
-                <form action="index.php" method="POST">
-                    <input type="hidden" id="page" name="page" value="contact">
+    echo   '<h1>Contact Me</h1>
+            <form action="index.php" method="POST">
+                <input type="hidden" id="page" name="page" value="contact">
 
-            <!- DROPDOWN ->
-                    <label for="gender">Gender</label> 
-                    <br>
-                    <select id="gender" name="gender">
-                        <option value="">Choose</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                    ' . getError($data, "gender") . '
-                    <br>
+                <label for="gender">Gender</label> 
+                <br>
+                <select id="gender" name="gender">
+                    <option value="">Choose</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                ' . showError($data, "gender") . '
+                <br>
 
-            <!- TEXTFIELDS ->     
-                        <label for="name">Name</label>
-                        <br>
-                        <input type="text" name="name" value="' . getArrayValue($data["values"], "name") . '">
-                        ' . getError($data, "name") . '
-                        <br>
 
-                        <label for="email">Email</label>
-                        <br>
-                        <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
-                        ' . getError($data, "email") . '
-                        <br>
+                <label for="name">Name</label>
+                <br>
+                <input type="text" name="name" value="' . getArrayValue($data["values"], "name") . '">
+                ' . showError($data, "name") . '
+                <br>
 
-                        <label for="phone">Phone</label>
-                        <br>
-                        <input type="text" name="phone" value="' . getArrayValue($data["values"], "phone") . '">
-                        ' . getError($data, "phone") . '
-                        <br>
+                <label for="email">Email</label>
+                <br>
+                <input type="email" name="email" value="' . getArrayValue($data["values"], "email") . '">
+                ' . showError($data, "email") . '
+                <br>
 
-                        <label for="subject">Subject</label>
-                        <br>
-                        <input type="text" name="subject" value="' . getArrayValue($data["values"], "subject") . '">
-                        ' . getError($data, "subject") . '
-                        <br>
+                <label for="phone">Phone</label>
+                <br>
+                <input type="text" name="phone" value="' . getArrayValue($data["values"], "phone") . '">
+                ' . showError($data, "phone") . '
+                <br>
 
-            <!- RADIO BUTTONS ->
-                        <label for="communication_preference">Communication preference</label>
-                        <br>
-                        <input type="radio" value="Email" name="communication_preference">
-                        <label for="email" class="radio">Email</label>
-                        <input type="radio" value="Phone" name="communication_preference">
-                        <label for="phone" class="radio">Phone</label>
-                        ' . getError($data, "communication_preference") . '
-                        <br>
+                <label for="subject">Subject</label>
+                <br>
+                <input type="text" name="subject" value="' . getArrayValue($data["values"], "subject") . '">
+                ' . showError($data, "subject") . '
+                <br>
 
-            <!- TEXTAREA ->
-                        <label for="message">Message</label>
-                        <br>
-                        <textarea name="message" cols="30" rows="10" value="' . getArrayValue($data["values"], "message") . '"></textarea>
-                        ' . getError($data, "message") . '
-                        <br>
+                
+                <label for="communication_preference">Communication preference</label>
+                <br>
+                <input type="radio" value="Email" name="communication_preference">
+                <label for="email" class="radio">Email</label>
+                <input type="radio" value="Phone" name="communication_preference">
+                <label for="phone" class="radio">Phone</label>
+                ' . showError($data, "communication_preference") . '
+                <br>
 
-            <!- SUBMIT ->
-                    <input class="submit" type="submit" value="Submit">
-                </form>
-            </div>';
+                <label for="message">Message</label>
+                <br>
+                <textarea name="message" cols="30" rows="10" value="' . getArrayValue($data["values"], "message") . '"></textarea>
+                ' . showError($data, "message") . '
+                <br>
+
+                <input class="submit" type="submit" value="Submit">
+            </form>';
 }

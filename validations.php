@@ -1,193 +1,239 @@
 <?php
 
 /**
- * Function cleans POST data, and stores the 'clean' values inside the $data["values"] array
- * @param array $data [
- *                  "values" => array : User data submitted,
- *                  "errors" => array : Empty,
- *                  "valid" => boolean : Data validity ] 
- * @return array $data [
- *                  "page" => string: Requested page,
- *                  "values" => array : User data submitted (cleaned),
- *                  "errors => array : Empty,
- *                  "valid" => boolean : Data validity ]
+ * Clean input for security reason
+ * 
+ * @param string $value: The input to be cleaned
+ * 
+ * @return string $value: Clean input
  */
-function cleanData($data) {
-    foreach ($_POST as $key => $value) {
-        $value = trim($value);
-        $value = stripslashes($value);
-        $value = htmlspecialchars($value);
+function cleanInput($value) {
+    $value = trim($value);
+    $value = stripslashes($value);
+    $value = htmlspecialchars($value);
+    return $value;
+}
 
-        if ($key == "page") {
-            $data["page"] = $value;
-        }
-        else {
-            $data["values"][$key] = $value;
-        }
+/**
+ * Validate the input and record error
+ * 
+ * @param array $data: The form data
+ * @param string $key: The name of the input
+ * @param string $value: The form input
+ * 
+ * @return $data: The data array holding the key, value, and possible error
+ */
+function validateInput($data, $key, $value) {
+    if (empty($value)) { 
+        $data["errors"][$key] = ucfirst(str_replace("_", " ", $key)) .  " is required";
+    }
+    else {
+        switch($key) { 
+            case "name":
+                if (!preg_match("/^[a-zA-Z-' ]*$/",$value)) { 
+                    $data["errors"][$key] = "Only letters and white space allowed";
+                }
+                break;
+            case "email":
+                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) { 
+                    $data["errors"][$key] = "Invalid email format";
+                }
+                break;
+            case "phone":
+                if(!preg_match('/^[0-9]{10}+$/', $value)) {
+                    $data['errors'][$key] = "Not a valid Phone number";
+                }
+                break;
+        }   
+    } 
+    return $data;
+}
+
+
+/**
+ * Start the validation process
+ * 
+ * @param array $data [
+ *                  $values => array: Empty fields,
+ *                  $errors => array: Empty,
+ * @return array $data [
+ *                  $values => array: The form inputs,
+ *                  $errors => array: Empty if no errors -or- Errors message(s),
+ */
+function startValidate($data) {
+    foreach ($data["values"] as $key => $value) {
+        $value = cleanInput(getPostValue($key));
+        $data["values"][$key] = $value;
+        $data = validateInput($data, $key, $value);
     }
     return $data;
 }
 
 
 /**
- * Function validates the $data array according to business logic, and records the errors if any
- * Important! The $data["user"] and $data["user_already_existst"] only present when page == 'registration' or 'login'
- * @param array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted,
- *                  "errors" => array : Empty,
- *                  "user" => array : Empty,
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
- * @return array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (cleaned),
- *                  "errors" => array : Empty/Error messages,
- *                  "user" => array : Empty/User data from database (id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
+ * Check the form for errors
+ * 
+ * @param array $data: The form data to be checked
+ * 
+ * @return array $data["valid"]: TRUE -or- FALSE
  */
-function validateData($data) {
-    require "data_manipulation.php";
+function checkForError($data) {
+    if (empty($data["errors"])) {
+        $data["valid"] = true;
+    }
+    return $data;
+}
 
-    $data = cleanData($data); # Clean data
 
-    foreach ($data["values"] as $key => $value) {
-        if (empty($value)) { #Check if field is empty
-            $data["errors"][$key] = ucfirst(str_replace("_", " ", $key)) .  " is required";
-        }
-        else {
-            switch($key) { 
-                case "name":
-                    if (!preg_match("/^[a-zA-Z-' ]*$/",$data["values"]["name"])) { # Check if 'name' is valid
-                        $data["errors"]["name"] = "Only letters and white space allowed";
-                        break;
-                    }
-                case "email":
-                    if (!filter_var($data["values"]["email"], FILTER_VALIDATE_EMAIL)) { # Check if 'email' is valid
-                        $data["errors"]["email"] = "Invalid email format";
-                        break;
-                    }
-                }   
-            } 
-    }  
+/**
+ * Validate the Contact form
+ * 
+ * @param string $page : The requested page
+ * 
+ * @return array $data [
+ *                      "page" => string: The name of the form page,
+ *                      "values" => array: The form inputs,
+ *                      "errors" => array: Empty if no errors -or- Errors message(s),
+ *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
+ *                     ]
+ */
+function validateContact($page) {
+    $data = array("values"=>getFormFields($page),"errors"=>array(),"valid"=>false);
+    if (requestMethodIsPost()) {
+        $data["page"] = getPostValue("page");
+        $data = startValidate($data);
+        $data = checkForError($data);
+    }
+    return $data;
+}
 
-    switch ($data["page"]) {
-        case "register":
-            if (!$data["values"]["confirm_password"] == $data["values"]["password"]) { # Check if 'password' and 'confirm password' match
+
+/**
+ * Validate the Registration form
+ * 
+ * @param string $page : The requested page
+ * 
+ * @return array $data [
+ *                      "page" => string: The name of the form page,
+ *                      "values" => array: The form inputs,
+ *                      "errors" => array: Empty if no errors -or- Errors message(s),
+ *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
+ *                     ]
+ * @throws Exception: When unable to get user data from database 
+ */
+function validateRegister($page) {
+    $data = array("values"=>getFormFields($page),"errors"=>array(),"valid"=>false);
+
+    if (requestMethodIsPost()) {
+        $data["page"] = getPostValue("page");
+        $data = startValidate($data);
+        try {
+            if (!empty($data["values"]["email"])) {
+                if (doesEmailExist($data["values"]["email"])) {
+                    $data["errors"]["user_already_exists"] = "Email already exists";
+                }
+            }
+            if (!$data["values"]["password"] == $data["values"]["confirm_password"]) {
                 $data["errors"]["confirm_password"] = "Passwords do not match. Try again";
             }
-            else {
-                $data = findUserByEmail($data);
-                if ($data["user_already_exists"]) { # Check if user data exists in database
-                    $data["errors"]["user_already_exists"] = "A user with the same email already exists";
-                }
-            }
-            break;
-        case "login":
-            $data = findUserByEmail($data);
-            if ($data["user_already_exists"]) { # Check if user data exists in database
-                if (!($data["values"]["email"] == $data["user"]["email"] && $data["values"]["password"] == $data["user"]["password"])) { # Check if 'email' and 'password' match user data in database, to authenticate user
-                    $data["errors"]["authentication"] = "The email and password do not match";
-                }
-            } 
-            else {
-                $data["errors"]["no_existing_user"] = "This user doesn't seem to exist";
-            }
-            break;
-        case "change_password":
-            if (!$data["values"]["current_password"] == $data["user"]["password"]) { # Check if 'current password' matches 'password' in database
-                $data["errors"]["current_password"] = "Your current password is incorrect";
-            }
-            elseif (!$data["values"]["new_password"] == $data["values"]["confirm_new_password"]) { # Check if 'new password' and 'confirm new password' match
-                    $data["errors"]["confirm_new_password"] = "Passwords do not match. Try again";
-            }
-            break;
-    }
-    
-    if (empty($data["errors"])) { # Check if there were any error messages recorded in the 'errors' array
-        $data["valid"] = true; 
-    }
-    return $data;
-}
-
-
-/**
- * Function validates the 'Contact Me' data from user, sent through POST request
- * @return array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (contact_fields),
- *                  "errors" => array : Empty/Error messages,
- *                  "valid" => boolean: Data validity ]
- */
-function validateContact() {
-    $contact_fields = array("gender"=>"","name"=>"","email"=>"","phone"=>"","subject"=>"","communication_preference"=>"","message"=>"");
-    $data = array("values"=>$contact_fields,"errors"=>array(),"valid"=>false);
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $data = validateData($data);
-    }
-    return $data;
-}
-
-
-/**
- * Function validates the 'Registration' data from user, sent through POST request
- * @return array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (register_fields),
- *                  "errors" => array : Empty/Error messages,
- *                  "user" => array : Empty/User data from database (id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
- */
-function validateRegister() {
-    $register_fields = array("email"=>"","name"=>"","password"=>"","confirm_password"=>"");
-    $data = array("values"=>$register_fields,"errors"=>array(),"user"=>array(),"user_already_exists"=>false,"valid"=>false);
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $data = validateData($data);
-    }
-    return $data;
-}
-
-
-/**
- * Function validates the 'Login' data from user, sent through POST request
- * @return array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (login_fields),
- *                  "errors" => array : Empty/Error messages,
- *                  "user" => array : Empty/User data from database (id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
- */
-function validateLogin() {
-    $login_fields = array("email"=>"","password"=>"");
-    $data = array("values"=>$login_fields,"errors"=>array(),"user"=>array(),"user_already_exists"=>false,"valid"=>false);
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $data = validateData($data);
-    }
-    return $data;
-}
-
-
-/**
- * Function validates the 'Change Password' data from user, sent through POST request
- * @return array $data [
- *                  "page" => string : Requested page,
- *                  "values" => array : User data submitted (change_password_fields)
- *                  "errors" => array : Empty/Error messages,
- *                  "user" => array : User data from database (id, email, name, password),
- *                  "user_already_exists" => boolean : Flag variable,
- *                  "valid" => boolean: Data validity ]
- */
-function validateNewPassword() {
-    $change_password_fields = array("current_password"=>"","new_password"=>"","confirm_new_password"=>"");
-    $data = array("values"=>$change_password_fields,"errors"=>array(),"user"=>array(),"valid"=>false);
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_SESSION["data"])) {
-            $data["user"] = $_SESSION["data"]["user"];
         }
-        $data = validateData($data);
+        catch (Exception $e) {
+            $data["errors"]["generic"] = 'Due to technical error, we cannot proceed with this process';
+            showLog($e->getMessage());
+        }
+        $data = checkForError($data);
+    }
+    return $data;
+}
+
+
+/**
+ * Validate and authenticate the Login form
+ * 
+ * @param string $page : The requested page
+ * 
+ * @return array $data [
+ *                      "page" => string: The name of the form page,
+ *                      "values" => array: The form inputs,
+ *                      "errors" => array: Empty if no errors -or- Errors message(s),
+ *                      "user" => array: Empty if user does not exist -or- user ID and username,
+ *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
+ *                     ]
+ * @throws Exception: When unable to get user data from database 
+ */
+function validateLogin($page) {
+    $data = array("values"=>getFormFields($page),"errors"=>array(),"user"=>array(),"valid"=>false);
+    if (requestMethodIsPost()) {
+        $data["page"] = getPostValue("page");
+        $data = startValidate($data);
+        try {
+            if (!empty($data["values"]["email"])) {
+                if (!doesEmailExist($data["values"]["email"])) {
+                    $data["errors"]["no_existing_user"] = "This user doesn't seem to exist";
+                }
+                else {
+                    $user = findUserByEmail($data["values"]["email"]);
+                    if (!$data["values"]["password"] == $user["password"]) {
+                        $data["errors"]["authentication"] = "Your password is incorrect";
+                    }
+                    else {
+                        $data["user"]["user_id"] = $user["user_id"];
+                        $data["user"]["name"] = $user["name"];
+                    }
+                }
+            }   
+        }
+        catch (Exception $e) {
+            $data["errors"]["generic"] = 'Due to technical error, we cannot proceed with this process';
+            showLog($e->getMessage());
+        }
+        $data = checkForError($data);
+    }
+    return $data;
+}
+
+
+/**
+ * Validate the Change Password form
+ * 
+ * @param string $page : The requested page
+ * 
+ * @return array $data [
+ *                      "page" => string: The name of the form page,
+ *                      "values" => array: The form inputs,
+ *                      "errors" => array: Empty if no errors -or- Errors message(s),
+ *                      "user" => array: Empty if user does not exist -or- user ID and username,
+ *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
+ *                     ]
+ * @throws Exception: When unable to get user data from database 
+ */
+function validateNewPassword($page) {
+    $data = array("values"=>getFormFields($page),"errors"=>array(),"user"=>array(),"valid"=>false);
+
+    if (requestMethodIsPost()) {
+        if (isUserLoggedIn()) {
+            $data["page"] = getPostValue("page");
+            $data = startValidate($data);
+            try {
+                $user = findUserById(getLoggedInUserId());
+
+                if ($data["values"]["current_password"] != $user["password"]) { 
+                    $data["errors"]["current_password"] = "Your password is incorrect";
+                }
+                elseif ($data["values"]["new_password"] != $data["values"]["confirm_new_password"]) {
+                        $data["errors"]["confirm_new_password"] = "Passwords do not match. Try again";
+                }
+                else {
+                    $data["user"]["user_id"] = $user["user_id"];
+                    $data["user"]["name"] = $user["name"];
+                }
+            }
+            catch (Exception $e) {
+                $data["errors"]["generic"] = 'Due to technical error, we cannot proceed with this process';
+                showLog($e->getMessage());
+            }
+            $data = checkForError($data);
+        }
     }
     return $data;
 }

@@ -25,7 +25,7 @@ nav ul {
 header li {
     list-style: none;
     display: inline-block;
-    padding: 2px 2px;
+    padding: 4px 4px;
 }
 
 header a {
@@ -82,7 +82,7 @@ h1 {
     margin-top: 50%;
 }
 
-.get_in_touch {
+.click_btn {
     width: 300px;
     height: 40px;
     background-color: #F86F03;
@@ -93,16 +93,21 @@ h1 {
     margin-bottom: 20px;
 }
 
-.get_in_touch a {
+.click_btn a, .cart {
     color: white;
     font-size: x-large;
     text-decoration: none;
 }
 
-.aboutme {
+.aboutme, .thanks div {
     margin-left: 50px;
     margin-right: 50px;
     font-family: 'Roboto Mono', monospace;
+}
+
+.thanks h3, .thanks p {
+    margin-bottom: 0;
+    margin-left: 50px;
 }
 
 .aboutme img {
@@ -173,9 +178,9 @@ form input[type="radio"] {
 
 .product_row {
     display: flex; 
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-direction: row;
     background-color: white;
 
 }
@@ -184,11 +189,12 @@ form input[type="radio"] {
     flex: 50%;
     background-color: white;
     margin-bottom: 30px;
+    flex-grow: 0;
 }
 
 .product_column img, .product_column div {
     display: block;
-    width: 35%;
+    width: 50%;
     margin: auto;
 }
 
@@ -206,4 +212,11 @@ form input[type="radio"] {
     color: black;
     font-size: 16px;
     font-weight: 200;
+}
+
+.cart {
+    color: white;
+    font-size: large;
+    margin-left: 30px;
+    border-radius: 15px 15px 15px 15px;
 }

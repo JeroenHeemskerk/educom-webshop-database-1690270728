@@ -1,5 +1,10 @@
 <?php
 
+require "session_manager.php";
+require "validations.php";
+require "data_manipulation.php";
+require "UI/main.php";
+
 session_start();
 $page = getRequestedPage();
 $data = processRequest($page);
@@ -7,8 +12,9 @@ showResponsePage($data);
 
 
 /**
- * Function gets the requested page, via POST or GET method
- * @return string $page : Requested page
+ * Get the requested page
+ * 
+ * @return string $page : The requested page
  */
 function getRequestedPage() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -22,30 +28,31 @@ function getRequestedPage() {
 
 
 /**
- * Function processes the page requests
- * @return array $data : Relevant user data
+ * Process the page requests
+ * 
+ * @return array $data : Relevant page data
  */
 function processRequest($page) {
-    require "validations.php";
+    $data["errors"] = array();
     switch($page) {
         case "contact":
-            $data = validateContact();
+            $data = validateContact($page);
             if ($data["valid"]) {
                 $page = "thanks";
             }
             break;
         case "register":
-            $data = validateRegister();
+            $data = validateRegister($page);
             if ($data["valid"]) {
-                storeUser($data);
+                storeUser($data["values"]["email"],$data["values"]["name"],$data["values"]["password"]);
                 $page = "login";
             }
             break;
         case "login":
-            $data = validateLogin();
+            $data = validateLogin($page);
             if ($data["valid"]) {
-                $page = "home";
                 loginUser($data);
+                $page = "home";
             }
             break;
         case "logout":
@@ -53,49 +60,44 @@ function processRequest($page) {
             $page = "home";
             break;
         case "change_password":
-            $data = validateNewPassword();
+            $data = validateNewPassword($page);
             if ($data["valid"]) {
-                updatePassword($data);
+                updatePassword($data["user"]["user_id"], $data["values"]["new_password"]);
                 $page = "home";
-                break;
             }
+            break;
         }
     $data["page"] = $page;
+    $data["menu"] = getMenuItems();
     return $data;
 }
 
 
 /**
- * Function displays the response page
- * @param array $data : Relevant user data
+ * Get the right menu items based on if user is logged in or not
+ * 
+ * @return array $menu: The menu items
+ */
+function getMenuItems() {
+    if (isUserLoggedIn()) {
+        $firstname = ucfirst(explode(" ", getLoggedInUserName())[0]);
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$firstname,"webshop"=>"Webshop");
+    }
+    else {
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","register"=>"Register","login"=>"Login","webshop"=>"Webshop");
+    }
+    return $menu;
+}
+
+
+/**
+ * Display the response page
+ * 
+ * @param array $data : Relevant page data
  */
 function showResponsePage($data) {
-    require "UI/main.php";
     showDocumentStart();
     showHeadSection($data);
     showBodySection($data);
     showDocumentEnd();
-}   
-
-
-/**
- * Function sets user data inside session variable for use on other pages
- * @param array $data : Relevant user data
- */
-function loginUser($data) {
-    $_SESSION["data"] = $data;
-}
-
-
-function isUserLoggedin() {
-    return isset($_SESSION["data"]);
-}
-
-
-/**
- * Function unsets user data inside session variable
- * @param array $data : Relevant user data
- */
-function logoutUser() {
-    unset($_SESSION["data"]);
 }
