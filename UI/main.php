@@ -258,7 +258,7 @@ function showLog($message) {
  */
 function getAddToCart() {
     if (isUserLoggedIn()) {
-        return '<button type="button" class="click_btn cart">Add to Cart</button>';
+        return '<input type="button" value="Add to Cart" class="click_btn cart" onclick="addToCart()">';
     }
     else {
         return '';

@@ -241,6 +241,6 @@ form input[type="radio"] {
     margin-left: 0;
 }
 
-button:hover, .product_column a:hover {
+button:hover, .product_column input:hover, .detail_column input:hover {
     opacity: 0.7;
   }
