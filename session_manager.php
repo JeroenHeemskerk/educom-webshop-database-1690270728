@@ -47,3 +47,14 @@ function logoutUser() {
     unset($_SESSION["user_name"]);
     unset($_SESSION["user_id"]);
 }
+
+
+function addToCart($product_id, $amount=1) {
+    if (isset($_SESSION["cart"])) {
+        $_SESSION["cart"][$product_id] = $amount;
+    }
+    else {
+        $_SESSION["cart"] = array();
+        $_SESSION["cart"][$product_id] = $amount;
+    }
+}

@@ -109,6 +109,18 @@ function validateContact($page) {
 
 
 /**
+ * Check by email if user already exists in database
+ * 
+ * @param string $email: The user email
+ * 
+ * @return boolean: TRUE if user exists -or- FALSE if not
+ */
+function doesEmailExist($email) {
+    return (!is_null(findUserByEmail($email)));
+}
+
+
+/**
  * Validate the Registration form
  * 
  * @param string $page : The requested page
@@ -233,4 +245,16 @@ function validateNewPassword($page) {
         }
     }
     return $data;
+}
+
+
+/**
+ * Check by product ID if product exists in database
+ * 
+ * @param string $product_id: The requested product ID
+ * 
+ * @return boolean: TRUE if product exists -or- FALSE if not
+ */
+function doesProductExist($product_id) {
+    return (!is_null(getProductById($product_id)));
 }

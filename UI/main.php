@@ -78,6 +78,23 @@ function showMenuItem($page, $button_text) {
 
 
 /**
+ * Get the right menu items based on if user is logged in or not
+ * 
+ * @return array $menu: The menu items
+ */
+function getMenuItems() {
+    if (isUserLoggedIn()) {
+        $firstname = ucfirst(explode(" ", getLoggedInUserName())[0]);
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$firstname,"webshop"=>"Webshop","cart"=>"Shopping Cart");
+    }
+    else {
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","register"=>"Register","login"=>"Login","webshop"=>"Webshop");
+    }
+    return $menu;
+}
+
+
+/**
  * Display page content
  * 
  * @param array $data: Relevant page data
@@ -122,6 +139,10 @@ function showContent($data) {
             require "UI/detail.php";
             showDetailPage($data["product"]);
             break;
+        case "cart":
+            require "UI/cart.php";
+            showShoppingCartPage();
+            break;
         default:
             show404Page();
     }
@@ -133,7 +154,7 @@ function showContent($data) {
  * Display the 404 page content
  */
 function show404Page() {
-    echo '<h1 id="page_not_found">404 - Page Not Found </h1>';
+    echo '<h1 class="page_generic">404<br>Page Not Found </h1>';
 }
 
 
@@ -256,9 +277,10 @@ function showLog($message) {
  * 
  * @return string: Add to cart button if user is logged in -or- empty string if not logged in
  */
-function getAddToCart() {
+function getAddToCart($product_id) {
     if (isUserLoggedIn()) {
-        return '<input type="button" value="Add to Cart" class="click_btn cart" onclick="addToCart()">';
+        return '<input type="hidden" name="product_id" value="'.$product_id.'">
+                <input type="submit" class="click_btn cart" value="Add to Cart">';
     }
     else {
         return '';

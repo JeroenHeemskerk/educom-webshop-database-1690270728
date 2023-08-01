@@ -66,11 +66,30 @@ function processRequest($page) {
                 $page = "home";
             }
             break;
+        case "webshop":
+            if (requestMethodIsPost()) {
+                $product_id = getPostValue("product_id");
+                addToCart($product_id);
+            }
+            break;
         case "detail":
-            $product_id = isset($_GET["product"]) ? $_GET["product"] : "";
-            $product = getProductById($product_id);
-            $data["product"] = $product;
-        }
+            $product_id = getRequestedProductId();
+            if (doesProductExist($product_id)) {
+                $data["product"] = getProductById($product_id);
+            }
+            if (requestMethodIsPost()) {
+                $product_id = getPostValue("product_id");
+                addToCart($product_id);
+            }
+            break;
+        case "cart":
+            if (requestMethodIsPost()) {
+                $product_id = getPostValue("product_id");
+                $quantity = getPostValue("quantity");
+                addToCart($product_id, $quantity);
+            }
+            break;
+    }
     $data["page"] = $page;
     $data["menu"] = getMenuItems();
     return $data;
@@ -78,19 +97,14 @@ function processRequest($page) {
 
 
 /**
- * Get the right menu items based on if user is logged in or not
+ * Get the requested product
  * 
- * @return array $menu: The menu items
+ * @return string: The requested product
  */
-function getMenuItems() {
-    if (isUserLoggedIn()) {
-        $firstname = ucfirst(explode(" ", getLoggedInUserName())[0]);
-        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$firstname,"webshop"=>"Webshop");
+function getRequestedProductId() {
+    if (isset($_GET["product"]) && $_GET["product"] != "") {
+        return  $_GET["product"];
     }
-    else {
-        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","register"=>"Register","login"=>"Login","webshop"=>"Webshop");
-    }
-    return $menu;
 }
 
 

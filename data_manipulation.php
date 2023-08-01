@@ -124,20 +124,6 @@ function findUserById($user_id) {
 
 
 /**
- * Check by email if user already exists in database
- * 
- * @param string $email: The user email
- * 
- * @return boolean: TRUE if user exists -or- FALSE if not
- * 
- * @throws Exception: When unable to interact with database
- */
-function doesEmailExist($email) {
-    return (!is_null(findUserByEmail($email)));
-}
-
-
-/**
  * Update user password in database
  * 
  * @param string $user_id: The user ID
@@ -185,8 +171,7 @@ function getProducts() {
         }
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $product = "product#" . strval($row["product_id"]);
-                $products[$product] = $row;
+                $products[$row["product_id"]] = $row;
             }
         }
         return $products;
