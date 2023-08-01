@@ -10,8 +10,8 @@
  */
 function showContactThanks($data) {
     echo   '<h1>Thank you</h1>
-            <div class="thanks">
-                <div>Thank you for reaching out, I\'ll get back to you soon 🙂</div>
+            <div class="page_generic">
+                <div>🙂<br>Thank you for reaching out, I\'ll get back to you soon</div>
                 <h3>Summary</h3>
                 <p>
                     Gender: ' . getValue($data, "gender") . '<br>

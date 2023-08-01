@@ -36,7 +36,7 @@ function storeUser($email, $name, $password) {
     $name = mysqli_real_escape_string($conn, $name);
     $password = mysqli_real_escape_string($conn, $password);
 
-    $sql = "INSERT INTO user (email, name, password)
+    $sql = "INSERT INTO `user` (`email`, `name`, `password`)
             VALUES ('$email', '$name', '$password');";
 
     try {
@@ -64,9 +64,9 @@ function findUserByEmail($email) {
     $conn = connectToDatabase();
     $email = mysqli_real_escape_string($conn, $email);
 
-    $sql = "SELECT user_id, email, name, password 
-            FROM user
-            WHERE email = '$email';";
+    $sql = "SELECT `user_id`, `email`, `name`, `password` 
+            FROM `user`
+            WHERE `email` = '$email';";
 
     try {
         $result = mysqli_query($conn, $sql);
@@ -100,9 +100,9 @@ function findUserById($user_id) {
     $conn = connectToDatabase();
     $user_id = mysqli_real_escape_string($conn, $user_id);
 
-    $sql = "SELECT user_id, email, name, password 
-            FROM user
-            WHERE user_id = '$user_id';";
+    $sql = "SELECT `user_id`, `email`, `name`, `password` 
+            FROM `user`
+            WHERE `user_id` = '$user_id';";
 
     try {
         $result = mysqli_query($conn, $sql);
@@ -136,9 +136,9 @@ function updatePassword($user_id, $new_password) {
     $id = mysqli_real_escape_string($conn, $user_id);
     $new_password = mysqli_real_escape_string($conn, $new_password);
 
-    $sql = "UPDATE user
-            SET password = '$new_password'
-            WHERE user_id = $id;";
+    $sql = "UPDATE `user`
+            SET `password` = '$new_password'
+            WHERE `user_id` = $id;";
     try {
         if (!mysqli_query($conn, $sql)) {
             throw new Exception("<br>Failed to update user data: " . mysql_error($conn));
@@ -161,8 +161,8 @@ function updatePassword($user_id, $new_password) {
 function getProducts() {
     $conn = connectToDatabase();
     $products = array();
-    $sql = "SELECT product_id, name, brand, description, price, filename 
-            FROM product";
+    $sql = "SELECT `product_id`, `name`, `brand`, `description`, `price`, `filename` 
+            FROM `product`;";
 
     try {
         $result = mysqli_query($conn, $sql);
@@ -194,9 +194,9 @@ function getProducts() {
 function getProductById($product_id) {
     $conn = connectToDatabase();
     $product_id = mysqli_real_escape_string($conn, $product_id);
-    $sql = "SELECT name, brand, description, price, filename 
-            FROM product
-            WHERE product_id = CONVERT('$product_id', UNSIGNED)";
+    $sql = "SELECT `name`, `brand`, `description`, `price`, `filename` 
+            FROM `product`
+            WHERE `product_id` = '$product_id';";
 
     try {
         $result = mysqli_query($conn, $sql);
@@ -209,6 +209,70 @@ function getProductById($product_id) {
                     return $row;
                 }
             }
+        }
+    }
+    finally {
+        mysqli_close($conn);
+    }
+}
+
+
+function storeOrder($user_id) {
+    $conn = connectToDatabase();
+    $user_id = mysqli_real_escape_string($conn, $user_id);
+    $sql = "INSERT INTO `order` (`date`, `user_id`) 
+            VALUES (current_timestamp(), '$user_id');";
+
+    try {
+        if (!mysqli_query($conn, $sql)) {
+            throw new Exception("<br>Failed to store order: " . mysql_error($conn));
+        }
+    }
+    finally {
+        mysqli_close($conn);
+    }
+}
+
+function getLastOrderId($user_id) {
+    $conn = connectToDatabase();
+    $user_id = mysqli_real_escape_string($conn, $user_id);
+
+    $sql = "SELECT `order_id`, `user_id`
+            FROM `order`
+            WHERE `user_id` = '$user_id'
+            ORDER BY `order_id` DESC
+            LIMIT 1;";
+
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select last order ID: " . mysql_error($conn));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row["user_id"] == $user_id) {
+                    return $row["order_id"];
+                }
+            }
+        }
+    }
+    finally {
+        mysqli_close($conn);
+    }
+}
+
+function insertProductOrder($product_id, $order_id, $quantity) {
+    $conn = connectToDatabase();
+    $product_id = mysqli_real_escape_string($conn, $product_id);
+    $order_id = mysqli_real_escape_string($conn, $order_id);
+    $quantity = mysqli_real_escape_string($conn, $quantity);
+
+    $sql = "INSERT INTO `product_order` (`product_id`, `order_id`, `quantity`)
+            VALUES ('$product_id', '$order_id', '$quantity');";
+
+    try {
+        if (!mysqli_query($conn, $sql)) {
+            throw new Exception("<br>Failed to store product order: " . mysql_error($conn));
         }
     }
     finally {

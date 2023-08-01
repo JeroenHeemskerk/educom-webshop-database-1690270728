@@ -258,3 +258,31 @@ function validateNewPassword($page) {
 function doesProductExist($product_id) {
     return (!is_null(getProductById($product_id)));
 }
+
+
+/**
+ * Validate the shopping cart checkout form
+ * 
+ * @return array $data [
+ *                      "errors" => array: Empty if no errors -or- Errors message(s),
+ *                      "valid" => boolean: TRUE if form is valid -or- FALSE if form is invalid 
+ *                     ]
+ */
+function validateCheckout() {
+    $data = array("errors"=>array(),"valid"=>false);
+    $cart = $_SESSION["cart"];
+
+    try {
+        storeOrder(getLoggedInUserId());
+        $order_id = getLastOrderId(getLoggedInUserId());
+        foreach ($cart as $product_id => $product_amount) {
+            insertProductOrder($product_id, $order_id, $product_amount);
+        }
+    }
+    catch (Exception $e) {
+        $data["errors"]["generic"] = 'Due to technical error, we cannot proceed with this process';
+        showLog($e->getMessage());
+    }
+    $data = checkForError($data);
+    return $data;
+}

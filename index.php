@@ -89,6 +89,13 @@ function processRequest($page) {
                 addToCart($product_id, $quantity);
             }
             break;
+        case "checkout":
+            $data = validateCheckout();
+            if ($data["valid"]) {
+                emptyCart();
+                $page = "order";
+            }
+            break;
     }
     $data["page"] = $page;
     $data["menu"] = getMenuItems();

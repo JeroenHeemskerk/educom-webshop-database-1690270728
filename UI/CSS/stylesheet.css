@@ -254,6 +254,10 @@ button:hover, .product_column input:hover, .detail_column input:hover {
     column-gap: 15px;
 }
 
+hr {
+    border: 1px solid #526D82;
+}
+
 .cart_column_1 {
     flex: 70%;
 }
@@ -264,7 +268,13 @@ button:hover, .product_column input:hover, .detail_column input:hover {
 
 .cart_column_2 div {
     display: grid;
-    grid-template-columns: 100px 100px;
+    grid-template-columns: 150px 100px;
+}
+
+#cart_form label {
+    font-size: 18px;
+    color: #526D82;
+    font-weight: 300;
 }
 
 .product_order {
@@ -285,10 +295,21 @@ button:hover, .product_column input:hover, .detail_column input:hover {
 .text {
     display: grid;
     align-items: center;
-    grid-template-columns: 75px 75px 75px 75px;
+    grid-template-columns: 150px 75px 75px 75px;
     column-gap: 15px;
+}
+
+.text .product_name {
+    width: 125px;
 }
 
 .text a {
     text-decoration: none;
+}
+
+.checkout {
+    float: right;
+    margin-right: 10px;
+    background-color: #525FE1;
+    border-color: #525FE1;
 }

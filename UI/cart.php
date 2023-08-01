@@ -13,8 +13,7 @@ function showShoppingCartPage() {
         $content .=    '<h1>Shopping Cart</h1>
                         <div class="cart_row">
                             <div class="cart_column_1">
-                            <h3>Items</h3>
-                            <hr>';
+                            <h3>Items</h3>';
         foreach ($_SESSION["cart"] as $key => $value) {
             $product = getProductById($key);
             $subtotal = number_format(($product["price"] * $value), 2, ".", "");
@@ -47,13 +46,14 @@ function showShoppingCartPage() {
                             <hr>
                             <div class="cart_column_2">
                                 <h3>Summary</h3>
-                                <hr>
                                 <div>
                                     <p>Total</p>
                                     <p>&euro; '.number_format($total, 2).'</p>
                                 </div>
                             </div>
-                    </div>';
+                        </div>
+                        <hr>
+                        <button class="click_btn checkout" type="button"><a href="index.php?page=checkout">Checkout</a></button>';
         echo $content;
     }
 }
@@ -63,7 +63,8 @@ function showShoppingCartPage() {
  * Display the Empty Cart page 
  */
 function showEmptyCart() {
-    echo '<h1 class="page_generic">🛒<br>You have no products in your cart</h1>';
+    echo '<h1>Shopping Cart</h1>
+          <div class="page_generic">🛒<br>You have no products in your cart</div>';
 }
 
 
@@ -90,4 +91,12 @@ function showQuantityDropdown($product_id, $amount) {
                   </form>
                   </div>';
     return $dropdown;
+}
+
+
+function showOrderThanks() {
+    echo '<h1>Thank you</h1>
+            <div class="page_generic">
+                <div>🛍️<br>Your order was completed successfully</div>
+            </div>';  
 }

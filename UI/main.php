@@ -143,6 +143,10 @@ function showContent($data) {
             require "UI/cart.php";
             showShoppingCartPage();
             break;
+        case "order":
+            require "UI/cart.php";
+            showOrderThanks();
+            break;
         default:
             show404Page();
     }
