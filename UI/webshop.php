@@ -7,8 +7,6 @@
 function showWebshopPage() {
     $products = getProducts();
     echo    '<h1>Webshop</h1>
-                <form id="webshop_form" method="POST">
-                    <input type="hidden" name="page" value="webshop">
                 ' . showProducts($products);
 }
 
@@ -31,7 +29,7 @@ function showProducts($products) {
                                     <div class="product_name">' . $product["name"] . '</div>
                                     <div class="product_price">&euro;' . $product["price"] . '</div>
                                 </a>
-                                ' . getAddToCart($product["product_id"]) . '
+                                ' . getAddToCartWebshop($product["product_id"]) . '
                             </div>';
         }
         else {
@@ -42,12 +40,11 @@ function showProducts($products) {
                                     <div class="product_name">' . $product["name"] . '</div>
                                     <div class="product_price">&euro;' . $product["price"] . '</div>
                                 </a>
-                                ' . getAddToCart($product["product_id"]) . '
+                                ' . getAddToCartWebshop($product["product_id"]) . '
                             </div>
                         </div>';
         }
-        $counter += 1;
+        $counter++;
     }
-    $content .= '</form>';
     return $content;
 }

@@ -13,22 +13,27 @@ function showShoppingCartPage() {
         $content .=    '<h1>Shopping Cart</h1>
                         <div class="cart_row">
                             <div class="cart_column_1">
-                            <h4>Items</h4>';
+                            <h3>Items</h3>
+                            <hr>';
         foreach ($_SESSION["cart"] as $key => $value) {
             $product = getProductById($key);
             $subtotal = number_format(($product["price"] * $value), 2, ".", "");
             $total += $subtotal;
             $content .=            '<div class="product_order">
                                         <div class="image">
-                                            <img src="UI/Images/' . $product["filename"] . '" alt="picture of product">
+                                            <a href="index.php?page=detail&product='.$product["product_id"].'" alt="product_link">
+                                                <img src="UI/Images/'.$product["filename"].'" alt="picture of product">
+                                            </a>
                                         </div>
                                         <div class="text">
                                             <div>
-                                                <p class="product_name">'.$product["brand"]." ".$product["name"].'</p>
+                                                <a href="index.php?page=detail&product='.$product["product_id"].'" alt="product_link">
+                                                    <p class="product_name">'.$product["brand"]." ".$product["name"].'</p>
+                                                </a>
                                             </div>
                                             ' . showQuantityDropdown($key, $value) . '
                                             <div>
-                                                <p>Price</p>
+                                                <p>Each</p>
                                                 <p class="product_price">&euro;' . $product["price"] . '</p>
                                             </div>
                                             <div>
@@ -39,16 +44,18 @@ function showShoppingCartPage() {
                                     </div>';
         }  
         $content .=         '</div>
+                            <hr>
                             <div class="cart_column_2">
                                 <h3>Summary</h3>
+                                <hr>
                                 <div>
                                     <p>Total</p>
                                     <p>&euro; '.number_format($total, 2).'</p>
                                 </div>
                             </div>
                     </div>';
+        echo $content;
     }
-    echo $content;
 }
 
 

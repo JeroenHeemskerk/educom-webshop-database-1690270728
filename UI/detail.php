@@ -10,7 +10,7 @@ function showDetailPage($product) {
                     <div class="brand">' . $product["brand"] . '</div>
                     <div class="product_name">' . $product["name"] . '</div>
                     <div class="product_price">&euro;' . $product["price"] . '</div>
-                    ' . getAddToCart($product["product_id"]) . '
+                    ' . getAddToCartDetail($product["product_id"]) . '
                 </div>
             </div>
             <div class="detail_row">

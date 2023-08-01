@@ -49,6 +49,9 @@ function logoutUser() {
 }
 
 
+/**
+ * Set product order data inside session variable
+ */
 function addToCart($product_id, $amount=1) {
     if (isset($_SESSION["cart"])) {
         $_SESSION["cart"][$product_id] = $amount;
@@ -57,4 +60,26 @@ function addToCart($product_id, $amount=1) {
         $_SESSION["cart"] = array();
         $_SESSION["cart"][$product_id] = $amount;
     }
+    if ($amount == 0) {
+        removeFromCart($product_id);
+    }
+}
+
+
+/**
+ * Unset product id inside session variable, and unset cart data if cart is empty
+ */
+function removeFromCart($product_id) {
+    unset($_SESSION["cart"][$product_id]);
+    if (empty($_SESSION["cart"])) {
+        emptyCart();
+    }
+}
+
+
+/**
+ * Unset cart data inside session variable
+ */
+function emptyCart() {
+    unset($_SESSION["cart"]);
 }

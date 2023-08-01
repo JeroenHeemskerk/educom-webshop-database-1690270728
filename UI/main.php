@@ -273,14 +273,36 @@ function showLog($message) {
 
 
 /**
- * Display add to cart button if user is logged in
+ * Display add to cart button on Webshop page, if user is logged in
  * 
  * @return string: Add to cart button if user is logged in -or- empty string if not logged in
  */
-function getAddToCart($product_id) {
+function getAddToCartWebshop($product_id) {
     if (isUserLoggedIn()) {
-        return '<input type="hidden" name="product_id" value="'.$product_id.'">
-                <input type="submit" class="click_btn cart" value="Add to Cart">';
+        return '<form action="" method="POST">
+                    <input type="hidden" name="page" value="webshop">
+                    <input type="hidden" name="product_id" value="'.$product_id.'">
+                    <input type="submit" class="click_btn cart" value="Add to Cart">
+                </form>';
+    }
+    else {
+        return '';
+    }
+}
+
+
+/**
+ * Display add to cart button on Detail page, if user is logged in
+ * 
+ * @return string: Add to cart button if user is logged in -or- empty string if not logged in
+ */
+function getAddToCartDetail($product_id) {
+    if (isUserLoggedIn()) {
+        return '<form action="" method="POST">
+                    <input type="hidden" name="page" value="detail">
+                    <input type="hidden" name="product_id" value="'.$product_id.'">
+                    <input type="submit" class="click_btn cart" value="Add to Cart">
+                </form>';
     }
     else {
         return '';
