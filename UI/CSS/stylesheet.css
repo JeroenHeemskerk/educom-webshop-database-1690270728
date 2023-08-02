@@ -240,7 +240,7 @@ form input[type="radio"] {
     align-content: center;
 }
 
-.detail_column img, .detail_column .cart {
+.detail_column img, .detail_column .cart, .detail_column form {
     width: 80%;
     margin-left: 0;
 }
