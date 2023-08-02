@@ -331,7 +331,7 @@ function getTop5() {
             RIGHT JOIN `product` AS p 
                 ON p.product_id = po.product_id
 
-            WHERE YEARWEEK(date) = YEARWEEK(NOW() - INTERVAL 1 WEEK)
+            WHERE YEARWEEK(date) = YEARWEEK(NOW() - INTERVAL 0 WEEK)
             GROUP BY po.product_id
             ORDER BY sold DESC
             LIMIT 5;";
