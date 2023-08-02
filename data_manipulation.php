@@ -217,6 +217,13 @@ function getProductById($product_id) {
 }
 
 
+/**
+ * Insert order data in database
+ * 
+ * @param string $user_id: The ID of the user
+ * 
+ * @throws Exception: When unable to interact with database
+ */
 function storeOrder($user_id) {
     $conn = connectToDatabase();
     $user_id = mysqli_real_escape_string($conn, $user_id);
@@ -233,6 +240,16 @@ function storeOrder($user_id) {
     }
 }
 
+
+/**
+ * Get the last order id of user in database
+ * 
+ * @param string $user_id: The id of the user
+ * 
+ * @return string: The last order id of the user
+ * 
+ * @throws Exception: When unable to interact with database
+ */
 function getLastOrderId($user_id) {
     $conn = connectToDatabase();
     $user_id = mysqli_real_escape_string($conn, $user_id);
@@ -261,6 +278,16 @@ function getLastOrderId($user_id) {
     }
 }
 
+
+/**
+ * Insert product order data in database
+ * 
+ * @param string $product_id: The id of the product
+ * @param string $order_id: The id of the order
+ * @param integer $quantity: The quantity of product
+ * 
+ * @throws Exception: When unable to interact with database
+ */
 function insertProductOrder($product_id, $order_id, $quantity) {
     $conn = connectToDatabase();
     $product_id = mysqli_real_escape_string($conn, $product_id);
@@ -274,6 +301,52 @@ function insertProductOrder($product_id, $order_id, $quantity) {
         if (!mysqli_query($conn, $sql)) {
             throw new Exception("<br>Failed to store product order: " . mysql_error($conn));
         }
+    }
+    finally {
+        mysqli_close($conn);
+    }
+}
+
+
+/**
+ * Get the top 5 products sold last week 
+ * 
+ * @return array $top_5: The top 5 products sold last week
+ * 
+ * @throws Exception: When unable to interact with database
+ */
+function getTop5() {
+    $conn = connectToDatabase();
+    $top_5 = array();
+    $sql = "SELECT
+                p.product_id
+                ,p.brand 
+                ,p.name
+                ,p.filename
+                ,SUM(po.quantity) AS sold
+            FROM `product_order` AS po
+
+            LEFT JOIN `order` o 
+                ON o.order_id = po.order_id
+            RIGHT JOIN `product` AS p 
+                ON p.product_id = po.product_id
+
+            WHERE YEARWEEK(date) = YEARWEEK(NOW() - INTERVAL 1 WEEK)
+            GROUP BY po.product_id
+            ORDER BY sold DESC
+            LIMIT 5;";
+
+    try {
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            throw new Exception("<br>Failed to select top 5: " . mysql_error($conn));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $top_5[$row["product_id"]] = $row;
+            }
+        }
+        return $top_5;
     }
     finally {
         mysqli_close($conn);

@@ -85,10 +85,10 @@ function showMenuItem($page, $button_text) {
 function getMenuItems() {
     if (isUserLoggedIn()) {
         $firstname = ucfirst(explode(" ", getLoggedInUserName())[0]);
-        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$firstname,"webshop"=>"Webshop","cart"=>"Shopping Cart");
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","change_password"=>"Change Password","logout"=>"Logout ".$firstname,"webshop"=>"Webshop","top5"=>"TOP 5","cart"=>"Shopping Cart");
     }
     else {
-        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","register"=>"Register","login"=>"Login","webshop"=>"Webshop");
+        $menu = array("home"=>"Home","about"=>"About","contact"=>"Contact","register"=>"Register","login"=>"Login","webshop"=>"Webshop","top5"=>"TOP 5");
     }
     return $menu;
 }
@@ -146,6 +146,10 @@ function showContent($data) {
         case "order":
             require "UI/cart.php";
             showOrderThanks();
+            break;
+        case "top5":
+            require "UI/top5.php";
+            showTop5Page();
             break;
         default:
             show404Page();

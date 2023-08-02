@@ -313,3 +313,14 @@ hr {
     background-color: #525FE1;
     border-color: #525FE1;
 }
+
+.sold {
+    color: #9BA4B5;
+    font-size: 16px;
+    text-align: center;
+}
+
+.top_5 {
+    color: black;
+    font-weight: 550;
+}
