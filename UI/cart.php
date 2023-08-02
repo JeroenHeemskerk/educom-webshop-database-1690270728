@@ -53,7 +53,9 @@ function showShoppingCartPage() {
                             </div>
                         </div>
                         <hr>
-                        <button class="click_btn checkout" type="button"><a href="index.php?page=checkout">Checkout</a></button>';
+                        <div class="cart_row">
+                            <button class="click_btn checkout" type="button"><a href="index.php?page=checkout">Checkout</a></button>
+                        </div>';
         echo $content;
     }
 }

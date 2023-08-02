@@ -251,6 +251,7 @@ button:hover, .product_column input:hover, .detail_column input:hover {
 .cart_row {
     display: flex;
     column-gap: 15px;
+    justify-content: flex-end;
 }
 
 hr {
@@ -307,8 +308,7 @@ hr {
 }
 
 .checkout {
-    float: right;
-    margin-right: 10px;
+    margin: 10px 10px;
     background-color: #525FE1;
     border-color: #525FE1;
 }
